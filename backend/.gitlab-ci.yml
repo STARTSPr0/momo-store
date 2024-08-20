@@ -20,7 +20,7 @@ build-back-code-job:
     - mkdir back-momo-${VERSION} && mv api back-momo-${VERSION}
   artifacts:
     paths:
-      - ${CI_PROJECT_DIR}/backend/back-momo-${VERSION}
+      - back-momo-${VERSION}
 
 build-backend-docker-job:
   stage: build
