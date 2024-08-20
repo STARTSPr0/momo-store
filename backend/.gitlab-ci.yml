@@ -8,6 +8,21 @@ stages:
 include:
   - template: Security/SAST.gitlab-ci.yml
 
+build-back-code-job:
+  stage: build
+  image: golang:1.17
+  only:
+    changes:
+      - backend/**/*
+  script:
+    - cd backend/cmd/api
+    - go build .
+    - ls -la
+    #- mkdir front-momo-${VERSION} && mv dist front-momo-${VERSION}
+  # artifacts:
+  #   paths:
+  #     - ${CI_PROJECT_DIR}/frontend/front-momo-${VERSION}
+
 build-backend-docker-job:
   stage: build
   image:
