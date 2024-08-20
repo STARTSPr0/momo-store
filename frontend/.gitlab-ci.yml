@@ -1,0 +1,73 @@
+variables:
+  VERSION: 1.0.${CI_PIPELINE_ID}
+
+stages:
+  - build
+  - build_docker
+  - test
+
+build-frontend-code-job:
+  stage: build
+  only:
+    changes:
+      - frontend/**/*
+  script:
+    - cd frontend
+    - npm install
+    - npm run build
+    - mkdir front-momo-${VERSION} && mv dist front-momo-${VERSION}
+  artifacts:
+    paths:
+      - ${CI_PROJECT_DIR}/frontend/front-momo-${VERSION}
+
+build-frontend-docker-job:
+  stage: build_docker
+  image:
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint: [""]
+  script:
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}/frontend"
+      --dockerfile "${CI_PROJECT_DIR}/frontend/Dockerfile"
+      --destination "${CI_REGISTRY_IMAGE}/front-momo:$CI_COMMIT_SHA"
+      --build-arg VERSION=$VERSION
+      --cache=true
+
+tag-frontend-docker:
+  variables:
+    GIT_STRATEGY: none
+  image:
+    name: gcr.io/go-containerregistry/crane:debug
+    entrypoint: [""]
+  cache: []
+  stage: build_docker
+  needs:
+    - build-frontend-docker-job
+  before_script:
+    - crane auth login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    - crane tag $CI_REGISTRY_IMAGE/front-momo:$CI_COMMIT_SHA $VERSION
+
+sonarqube-frontend-sast:
+  stage: test
+  image:
+    name: sonarsource/sonar-scanner-cli:latest
+    entrypoint: [""]
+  only:
+    changes:
+      - frontend/**/*
+  needs:
+    - build-frontend-code-job
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
+    GIT_DEPTH: "0"
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  script:
+    - "sonar-scanner -Dsonar.qualitygate.wait=true -X
+      -Dsonar.projectKey=${SONAR_DIPLOM_KEY_FRONT}
+      -Dsonar.sources=${CI_PROJECT_DIR}/frontend/front-momo-${VERSION}
+      -Dsonar.host.url=${SONAR_DIPLOM_URL}
+      -Dsonar.login=${SONAR_DIPLOM_LOGIN_FRONT}"
