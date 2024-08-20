@@ -14,10 +14,11 @@ build-frontend-code-job:
     - cd frontend
     - npm install
     - npm run build
-    - ls -la
+    - mkdir front_momo_${VERSION} && mv dist front_momo_${VERSION}
+    - ls -la    
   artifacts:
     paths:
-      - ${CI_PROJECT_DIR}/frontend/dist
+      - ${CI_PROJECT_DIR}/frontend/front_momo_${VERSION}
 
 sonarqube-frontend-sast:
   stage: test
@@ -39,6 +40,6 @@ sonarqube-frontend-sast:
   script:
     - "sonar-scanner -Dsonar.qualitygate.wait=true -X
       -Dsonar.projectKey=${SONAR_DIPLOM_KEY_FRONT}
-      -Dsonar.sources=${CI_PROJECT_DIR}/frontend/dist
+      -Dsonar.sources=${CI_PROJECT_DIR}/frontend/front_momo_${VERSION}
       -Dsonar.host.url=${SONAR_DIPLOM_URL}
       -Dsonar.login=${SONAR_DIPLOM_LOGIN_FRONT}"
