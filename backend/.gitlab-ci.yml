@@ -30,7 +30,7 @@ tag-backend-docker:
   cache: []
   stage: build
   needs:
-    - build-frontend-docker-job
+    - build-backend-docker-job
   before_script:
     - crane auth login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
