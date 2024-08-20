@@ -19,11 +19,9 @@ build-back-code-job:
     - go build .
     - mkdir back-momo-${VERSION} && mv api back-momo-${VERSION}
     - ls -la 
-    - cd ../..
-    - ls -la
   artifacts:
     paths:
-      - back-momo-${VERSION}
+      - ${CI_PROJECT_DIR}/backend/backend/cmd/api/back-momo-${VERSION}
 
 build-backend-docker-job:
   stage: build
