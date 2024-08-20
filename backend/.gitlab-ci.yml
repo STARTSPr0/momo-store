@@ -17,11 +17,10 @@ build-back-code-job:
   script:
     - cd backend/cmd/api
     - go build .
-    - ls -la
-    #- mkdir front-momo-${VERSION} && mv dist front-momo-${VERSION}
-  # artifacts:
-  #   paths:
-  #     - ${CI_PROJECT_DIR}/frontend/front-momo-${VERSION}
+    - mkdir back-momo-${VERSION} && mv api back-momo-${VERSION}
+  artifacts:
+    paths:
+      - ${CI_PROJECT_DIR}/backend/back-momo-${VERSION}
 
 build-backend-docker-job:
   stage: build
