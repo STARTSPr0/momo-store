@@ -36,7 +36,7 @@ sonarqube-backend-sast:
       - .sonar/cache
   script:
     - cd backend
-    - "sonar-scanner
+    - "sonar-scanner -Dsonar.qualitygate.wait=true -X
      -Dsonar.projectKey={SONAR_DIPLOM_KEY_BACK}
      -Dsonar.sources=.
      -Dsonar.host.url={SONAR_DIPLOM_URL}
