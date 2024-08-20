@@ -6,11 +6,11 @@ stages:
   - test
 
 build-frontend-code-job:
-  stage: build  
+  stage: build
   only:
     changes:
-    - frontend/**/*
-  script:        
+      - frontend/**/*
+  script:
     - cd frontend
     - npm install
     - npm run build
@@ -27,6 +27,8 @@ sonarqube-frontend-sast:
   only:
     changes:
       - frontend/**/*
+  needs:
+    - build-frontend-code-job
   variables:
     SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
     GIT_DEPTH: "0"
@@ -35,7 +37,7 @@ sonarqube-frontend-sast:
     paths:
       - .sonar/cache
   script:
-    - "sonar-scanner -Dsonar.qualitygate.wait=true -X
+    - "sonar-scanner
       -Dsonar.projectKey=${SONAR_DIPLOM_KEY_FRONT}
       -Dsonar.sources=${CI_PROJECT_DIR}/frontend/dist
       -Dsonar.host.url=${SONAR_DIPLOM_URL}
