@@ -3,6 +3,7 @@ variables:
 
 stages:
   - build
+  - build_docker
   - test
 
 include:
@@ -23,7 +24,7 @@ build-back-code-job:
       - ${CI_PROJECT_DIR}/backend/back-momo-${VERSION}/api
 
 build-backend-docker-job:
-  stage: build
+  stage: build_docker
   image:
     name: gcr.io/kaniko-project/executor:v1.9.0-debug
     entrypoint: [""]
@@ -42,7 +43,7 @@ tag-backend-docker:
     name: gcr.io/go-containerregistry/crane:debug
     entrypoint: [""]
   cache: []
-  stage: build
+  stage: build_docker
   needs:
     - build-backend-docker-job
   before_script:
