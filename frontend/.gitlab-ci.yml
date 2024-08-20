@@ -1,4 +1,4 @@
-stages:
-  - build
-  - test
-  - release
+# stages:
+#   - build
+#   - test
+#   - release
