@@ -21,7 +21,7 @@ build-back-code-job:
     - ls -la 
   artifacts:
     paths:
-      - ${CI_PROJECT_DIR}/backend/backend/cmd/api/back-momo-${VERSION}
+      - ${CI_PROJECT_DIR}/backend/cmd/api/back-momo-${VERSION}
 
 build-backend-docker-job:
   stage: build
