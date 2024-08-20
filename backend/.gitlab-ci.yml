@@ -2,3 +2,41 @@ stages:
   - build
   - test
   - release
+
+include:
+  - template: Security/SAST.gitlab-ci.yml
+
+spotbugs-sast:
+  stage: test
+
+backend-go-test:
+  stage: test
+  image: golang:1.17
+  only:
+    changes:
+      - backend/**/*
+  script:
+    - cd backend
+    - go test -v ./... 
+
+sonarqube-backend-sast:
+  stage: test
+  image:
+    name: sonarsource/sonar-scanner-cli:latest
+    entrypoint: [""]
+  only:
+    changes:
+      - backend/**/*
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
+    GIT_DEPTH: "0"
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  script:
+    - "sonar-scanner \
+      -Dsonar.projectKey={SONAR_DIPLOM_KEY_BACK} \
+      -Dsonar.sources=. \
+      -Dsonar.host.url={SONAR_DIPLOM_URL} \
+      -Dsonar.login={SONAR_DIPLOM_LOGIN_BACK}"
