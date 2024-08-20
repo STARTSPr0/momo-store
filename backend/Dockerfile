@@ -1,10 +1,8 @@
 #Сборка
 FROM golang:1.17 AS builder
 WORKDIR /app
-COPY go.mod go.sum ./
-RUN go mod download
-COPY cmd/api ./
-RUN go build -o /back-momo
+COPY go.mod go.sum ./cmd/api ./
+RUN go mod download && go build -o /back-momo
 #релиз
 FROM gcr.io/distroless/base-debian11 AS release
 WORKDIR /
