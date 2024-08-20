@@ -1,4 +1,38 @@
-# stages:
-#   - build
-#   - test
-#   - release
+stages:
+  - build
+  - test
+
+build-frontend-code-job:
+  stage: build  
+  only:
+    changes:
+    - frontend/**/*
+  script:        
+    - cd frontend
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - frontend/dist/frontend
+
+sonarqube-frontend-sast:
+  stage: test
+  image:
+    name: sonarsource/sonar-scanner-cli:latest
+    entrypoint: [""]
+  only:
+    changes:
+      - frontend/**/*
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
+    GIT_DEPTH: "0"
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  script:
+    - "sonar-scanner -Dsonar.qualitygate.wait=true -X
+      -Dsonar.projectKey=${SONAR_DIPLOM_KEY_FRONT}
+      -Dsonar.sources=frontend/dist/frontend
+      -Dsonar.host.url=${SONAR_DIPLOM_URL}
+      -Dsonar.login=${SONAR_DIPLOM_LOGIN_FRONT}"

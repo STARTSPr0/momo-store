@@ -6,8 +6,8 @@ stages:
 include:
   - template: Security/SAST.gitlab-ci.yml
 
-spotbugs-sast:
-  stage: test
+# spotbugs-sast:
+#   stage: test
 
 backend-go-test:
   stage: test
