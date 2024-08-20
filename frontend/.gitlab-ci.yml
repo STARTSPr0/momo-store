@@ -37,7 +37,7 @@ sonarqube-frontend-sast:
     paths:
       - .sonar/cache
   script:
-    - "sonar-scanner
+    - "sonar-scanner -Dsonar.qualitygate.wait=true -X
       -Dsonar.projectKey=${SONAR_DIPLOM_KEY_FRONT}
       -Dsonar.sources=${CI_PROJECT_DIR}/frontend/dist
       -Dsonar.host.url=${SONAR_DIPLOM_URL}
