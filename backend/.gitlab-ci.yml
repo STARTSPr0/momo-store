@@ -1,3 +1,6 @@
+variables:
+  VERSION: 1.0.${CI_PIPELINE_ID}
+
 stages:
   # - build
   - test
@@ -5,9 +8,6 @@ stages:
 
 include:
   - template: Security/SAST.gitlab-ci.yml
-
-# spotbugs-sast:
-#   stage: test
 
 backend-go-test:
   stage: test
