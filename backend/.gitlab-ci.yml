@@ -18,7 +18,9 @@ build-back-code-job:
     - cd backend/cmd/api
     - go build .
     - mkdir back-momo-${VERSION} && mv api back-momo-${VERSION}
-    - la -la
+    - ls -la 
+    - cd ../..
+    - ls -la
   artifacts:
     paths:
       - back-momo-${VERSION}
