@@ -6,7 +6,7 @@ stages:
   - build
   - build_docker
   - nexus_upload
-  
+
 include:
   - template: Security/SAST.gitlab-ci.yml
 
@@ -17,8 +17,8 @@ upload-to-nexus:
   script:
     - >
       curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}"
-      --upload-file $CI_REGISTRY_IMAGE/back-momo:$VERSION
-      ${NEXUS_REPO_URL}/${NEXUS_REPO_BACK}/${VERSION}/back-momo:$VERSION
+      --upload-file ${CI_PROJECT_DIR}/backend/back-momo-${VERSION}/api
+      ${NEXUS_REPO_URL}/${NEXUS_REPO_BACK}/${VERSION}/back-momo-${VERSION}/api
 
 build-back-code-job:
   stage: build
@@ -41,6 +41,8 @@ build-backend-docker-job:
   image:
     name: gcr.io/kaniko-project/executor:v1.9.0-debug
     entrypoint: [""]
+  needs:
+    - sonarqube-backend-sast
   script:
     - /kaniko/executor
       --context "${CI_PROJECT_DIR}/backend"
