@@ -2,12 +2,23 @@ variables:
   VERSION: 1.0.${CI_PIPELINE_ID}
 
 stages:
+  - test
   - build
   - build_docker
-  - test
-
+  - nexus_upload
+  
 include:
   - template: Security/SAST.gitlab-ci.yml
+
+upload-to-nexus:
+  stage: nexus_upload
+  needs:
+    - tag-backend-docker
+  script:
+    - >
+      curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}"
+      --upload-file $CI_REGISTRY_IMAGE/back-momo:$VERSION
+      ${NEXUS_REPO_URL}/${NEXUS_REPO_BACK}/${VERSION}/back-momo:$VERSION
 
 build-back-code-job:
   stage: build
@@ -15,6 +26,8 @@ build-back-code-job:
   only:
     changes:
       - backend/**/*
+  needs:
+    - sonarqube-backend-sast
   script:
     - cd backend/cmd/api
     - go build .
