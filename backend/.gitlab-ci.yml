@@ -16,11 +16,11 @@ upload-to-nexus:
     - build-back-code-job
   script:
     - cd ${CI_PROJECT_DIR}/backend/back-momo-${VERSION}
-    - ls -la
     - tar czvf api-${VERSION}.tar.gz api
+    - ls -la
     - >
       curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}"
-      --upload-file api-${VERSION}.tar.gz
+      -T api-${VERSION}.tar.gz
       ${NEXUS_REPO_URL}/${NEXUS_REPO_BACK}/${VERSION}/back-momo-${VERSION}/api-${VERSION}.tar.gz
 
 build-back-code-job:
