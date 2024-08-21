@@ -13,12 +13,15 @@ include:
 upload-to-nexus:
   stage: nexus_upload
   needs:
-    - tag-backend-docker
+    - build-back-code-job
   script:
+    - cd ${CI_PROJECT_DIR}/backend/back-momo-${VERSION}
+    - ls -la
+    - tar czvf api-${VERSION}.tar.gz api
     - >
       curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}"
-      --upload-file ${CI_PROJECT_DIR}/backend/back-momo-${VERSION}/api
-      ${NEXUS_REPO_URL}/${NEXUS_REPO_BACK}/${VERSION}/back-momo-${VERSION}/api
+      --upload-file api-${VERSION}.tar.gz
+      ${NEXUS_REPO_URL}/${NEXUS_REPO_BACK}/${VERSION}/back-momo-${VERSION}/api-${VERSION}.tar.gz
 
 build-back-code-job:
   stage: build
