@@ -20,7 +20,7 @@ upload-to-nexus:
     - ls -la
     - >
       curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}"
-      -TJL api-${VERSION}.tar.gz
+      -JLT api-${VERSION}.tar.gz
       ${NEXUS_REPO_URL}/${NEXUS_REPO_BACK}/${VERSION}/back-momo-${VERSION}/api-${VERSION}.tar.gz
 
 build-back-code-job:
