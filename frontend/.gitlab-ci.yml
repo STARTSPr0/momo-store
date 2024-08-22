@@ -3,8 +3,9 @@ variables:
 
 stages:
   - build
-  - build_docker
+  - nexus_upload
   - test
+  - build_docker
 
 build-frontend-code-job:
   stage: build
@@ -20,11 +21,26 @@ build-frontend-code-job:
     paths:
       - ${CI_PROJECT_DIR}/frontend/front-momo-${VERSION}
 
+upload-to-nexus:
+  stage: nexus_upload
+  needs:
+    - build-frontend-code-job
+  script:
+    - cd ${CI_PROJECT_DIR}/frontend/
+    - tar czvf front-momo-${VERSION}.tar.gz front-momo-${VERSION}
+    - ls -la
+    - >
+      curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}"
+      -JL --upload-file front-momo-${VERSION}.tar.gz
+      ${NEXUS_REPO_URL}/repository/${NEXUS_REPO_FRONT}/${VERSION}/front-momo-${VERSION}.tar.gz
+
 build-frontend-docker-job:
   stage: build_docker
   image:
     name: gcr.io/kaniko-project/executor:v1.9.0-debug
     entrypoint: [""]
+  needs:
+    - sonarqube-frontend-sast
   script:
     - /kaniko/executor
       --context "${CI_PROJECT_DIR}/frontend"
