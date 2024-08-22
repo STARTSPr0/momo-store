@@ -3,9 +3,9 @@ variables:
 
 stages:
   - build
+  - nexus_upload
   - test
   - build_docker
-  - nexus_upload
 
 build-frontend-code-job:
   stage: build
@@ -20,6 +20,19 @@ build-frontend-code-job:
   artifacts:
     paths:
       - ${CI_PROJECT_DIR}/frontend/front-momo-${VERSION}
+
+upload-to-nexus:
+  stage: nexus_upload
+  needs:
+    - build-frontend-code-job
+  script:
+    - cd ${CI_PROJECT_DIR}/frontend/
+    - tar czvf front-momo-${VERSION}.tar.gz front-momo-${VERSION}
+    - ls -la
+    - >
+      curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}"
+      -JL --upload-file front-momo-${VERSION}.tar.gz
+      ${NEXUS_REPO_URL}/repository/${NEXUS_REPO_FRONT}/${VERSION}/front-momo-${VERSION}.tar.gz
 
 build-frontend-docker-job:
   stage: build_docker

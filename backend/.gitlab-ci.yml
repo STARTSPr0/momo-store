@@ -4,24 +4,11 @@ variables:
 stages:
   - test
   - build
-  - build_docker
   - nexus_upload
+  - build_docker
 
 include:
   - template: Security/SAST.gitlab-ci.yml
-
-upload-to-nexus:
-  stage: nexus_upload
-  needs:
-    - build-back-code-job
-  script:
-    - cd ${CI_PROJECT_DIR}/backend/back-momo-${VERSION}
-    - tar czvf api-${VERSION}.tar.gz api
-    - ls -la
-    - >
-      curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}"
-      -JL --upload-file api-${VERSION}.tar.gz
-      ${NEXUS_REPO_URL}/repository/${NEXUS_REPO_BACK}/${VERSION}/api-${VERSION}.tar.gz
 
 build-back-code-job:
   stage: build
@@ -38,6 +25,19 @@ build-back-code-job:
   artifacts:
     paths:
       - ${CI_PROJECT_DIR}/backend/back-momo-${VERSION}/api
+
+upload-to-nexus:
+  stage: nexus_upload
+  needs:
+    - build-back-code-job
+  script:
+    - cd ${CI_PROJECT_DIR}/backend/back-momo-${VERSION}
+    - tar czvf api-${VERSION}.tar.gz api
+    - ls -la
+    - >
+      curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}"
+      -JL --upload-file api-${VERSION}.tar.gz
+      ${NEXUS_REPO_URL}/repository/${NEXUS_REPO_BACK}/${VERSION}/api-${VERSION}.tar.gz
 
 build-backend-docker-job:
   stage: build_docker
