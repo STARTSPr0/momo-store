@@ -19,9 +19,9 @@ upload-to-nexus:
     - tar czvf api-${VERSION}.tar.gz api
     - ls -la
     - >
-      curl --insecure -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}"
+      curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}"
       -JL --upload-file api-${VERSION}.tar.gz
-      ${NEXUS_REPO_URL}/${NEXUS_REPO_BACK}/${VERSION}/back-momo-${VERSION}/api-${VERSION}.tar.gz
+      ${NEXUS_REPO_URL}/repository/${NEXUS_REPO_BACK}/${VERSION}/back-momo-${VERSION}/api-${VERSION}.tar.gz
 
 build-back-code-job:
   stage: build
