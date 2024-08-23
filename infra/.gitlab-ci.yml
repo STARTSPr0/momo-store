@@ -23,6 +23,7 @@ validate:
 build:
   extends: .terraform:build
   script:
+    - cd ${CI_PROJECT_DIR}/infra/terraform
     - ls -la
   artifacts:
     paths:
