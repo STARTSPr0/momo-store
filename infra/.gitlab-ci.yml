@@ -24,7 +24,7 @@ build:
   extends: .terraform:build
   artifacts:
     paths:
-      - tfplan
+      - plan
 
 deploy:
   extends: .terraform:deploy
@@ -37,7 +37,7 @@ terraform_apply:
     - build
   stage: deploy
   script:
-    - terraform apply tfplan
+    - terraform apply plan
   when: manual
 
 destroy:
