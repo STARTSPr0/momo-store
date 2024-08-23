@@ -21,3 +21,13 @@ backend:
   only:
     changes:
       - backend/**/*
+
+terraform:
+  stage: module-pipelines
+  trigger:
+    include:
+      - "/infra/.gitlab-ci.yml"
+    strategy: depend
+  only:
+    changes:
+      - infra/**/*
