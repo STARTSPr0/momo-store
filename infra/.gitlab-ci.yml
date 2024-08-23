@@ -1,6 +1,9 @@
 include:
   - template: Terraform.latest.gitlab-ci.yml
 
+variables:
+  TF_CLI_CONFIG_FILE: ${CI_PROJECT_DIR}/infra/terraform/.terraformrc
+
 deploy:
   environment:
     name: $TF_STATE_NAME
