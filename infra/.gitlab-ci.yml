@@ -31,8 +31,6 @@ deploy:
 
 terraform_apply:
   stage: deploy
-  needs:
-    - deploy
   script:
     - terraform apply tfplan
   when: manual
