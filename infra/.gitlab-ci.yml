@@ -20,8 +20,13 @@ fmt:
 validate:
   extends: .terraform:validate
 
-plan:
-  extends: .terraform:build
+terraform_plan:
+  stage: build
+  script:
+    - terraform plan -out=tfplan
+  artifacts:
+    paths:
+      - tfplan
 
 deploy:
   extends: .terraform:deploy
@@ -30,6 +35,8 @@ deploy:
     on_stop: destroy
 
 terraform_apply:
+  needs:
+    - terraform_plan
   stage: deploy
   script:
     - terraform apply tfplan
