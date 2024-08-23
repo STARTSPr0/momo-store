@@ -22,6 +22,8 @@ validate:
 
 build:
   extends: .terraform:build
+  script:
+    - ls -la
   artifacts:
     paths:
       - plan.json
