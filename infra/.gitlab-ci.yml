@@ -2,25 +2,40 @@ include:
   - template: Terraform.latest.gitlab-ci.yml
   - template: Jobs/SAST-IaC.latest.gitlab-ci.yml
 
+stages:
+  - validate
+  - test
+  - build
+  - deploy
+  - destroy
+
 variables:
   TF_CLI_CONFIG_FILE: ${CI_PROJECT_DIR}/infra/terraform/.terraformrc
   TF_ROOT: ${CI_PROJECT_DIR}/infra/terraform/
-  
+
+fmt:
+  extends: .terraform:fmt
+
+validate:
+  extends: .terraform:validate
+
+plan:
+  extends: .terraform:build
+
 deploy:
+  needs:
+    - plan
+  extends: .terraform:deploy
   environment:
     name: $TF_STATE_NAME
     action: start
     on_stop: destroy
 
 destroy:
+  stage: destroy
+  needs:
+    - deploy
   extends: .terraform:destroy
   environment:
     name: $TF_STATE_NAME
     action: stop
-
-destroy_manual:
-  extends: .terraform:destroy
-  environment:
-    name: $TF_STATE_NAME
-    action: stop
-  when: manual
