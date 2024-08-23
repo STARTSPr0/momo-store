@@ -4,7 +4,8 @@ include:
 
 variables:
   TF_CLI_CONFIG_FILE: ${CI_PROJECT_DIR}/infra/terraform/.terraformrc
-
+  TF_ROOT: ${CI_PROJECT_DIR}/infra/terraform/
+  
 deploy:
   environment:
     name: $TF_STATE_NAME
