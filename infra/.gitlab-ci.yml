@@ -12,6 +12,7 @@ stages:
 variables:
   TF_CLI_CONFIG_FILE: ${CI_PROJECT_DIR}/infra/terraform/.terraformrc
   TF_ROOT: ${CI_PROJECT_DIR}/infra/terraform/
+  TF_STATE_NAME: x${CI_ENVIRONMENT_NAME}
 
 fmt:
   extends: .terraform:fmt
@@ -23,12 +24,9 @@ plan:
   extends: .terraform:build
 
 deploy:
-  needs:
-    - build
   extends: .terraform:deploy
   environment:
     name: $TF_STATE_NAME
-    action: start
     on_stop: destroy
 
 destroy:
