@@ -1,5 +1,5 @@
 include:
-  - template: Terraform.latest.gitlab-ci.yml
+  - template: Terraform/Base.gitlab-ci.yml
   - template: Jobs/SAST-IaC.latest.gitlab-ci.yml
 
 stages:
@@ -20,10 +20,8 @@ fmt:
 validate:
   extends: .terraform:validate
 
-terraform_plan:
-  stage: build
-  script:
-    - terraform plan -out=tfplan
+build:
+  extends: .terraform:build
   artifacts:
     paths:
       - tfplan
