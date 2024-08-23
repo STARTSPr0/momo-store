@@ -33,8 +33,6 @@ deploy:
 
 destroy:
   stage: destroy
-  needs:
-    - deploy
   extends: .terraform:destroy
   environment:
     name: $TF_STATE_NAME
