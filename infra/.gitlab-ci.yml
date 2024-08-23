@@ -24,7 +24,7 @@ plan:
 
 deploy:
   needs:
-    - validate
+    - build
   extends: .terraform:deploy
   environment:
     name: $TF_STATE_NAME
