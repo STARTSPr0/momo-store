@@ -29,6 +29,14 @@ deploy:
     name: $TF_STATE_NAME
     on_stop: destroy
 
+terraform_apply:
+  stage: deploy
+  needs:
+    - deploy
+  script:
+    - terraform apply tfplan
+  when: manual
+
 destroy:
   stage: destroy
   extends: .terraform:destroy
