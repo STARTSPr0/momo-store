@@ -37,6 +37,6 @@ terraform_apply:
 destroy:
   stage: destroy
   extends: .terraform:destroy
-  environment:
-    name: $TF_STATE_NAME
-    action: stop
+  # environment:
+  #   name: $TF_STATE_NAME
+  #   action: stop
