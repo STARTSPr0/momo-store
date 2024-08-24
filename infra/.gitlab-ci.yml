@@ -22,9 +22,9 @@ validate:
 
 build:
   extends: .terraform:build
-  script:
-    - cd ${CI_PROJECT_DIR}/infra/terraform/
-    - tree
+  # script:
+  #   - cd ${CI_PROJECT_DIR}/infra/terraform/
+  #   - tree
   # artifacts:
   #   paths:
   #     - plan.json
