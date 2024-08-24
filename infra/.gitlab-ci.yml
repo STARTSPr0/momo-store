@@ -14,20 +14,11 @@ variables:
   TF_ROOT: ${CI_PROJECT_DIR}/infra/terraform/
   TF_STATE_NAME: x${CI_ENVIRONMENT_NAME}
 
-fmt:
-  extends: .terraform:fmt
-
 validate:
   extends: .terraform:validate
 
 build:
   extends: .terraform:build
-  # script:
-  #   - cd ${CI_PROJECT_DIR}/infra/terraform/
-  #   - tree
-  # artifacts:
-  #   paths:
-  #     - plan.json
 
 deploy:
   extends: .terraform:deploy
@@ -35,13 +26,13 @@ deploy:
     name: $TF_STATE_NAME
     on_stop: destroy
 
-# terraform_apply:
-#   needs:
-#     - build
-#   stage: deploy
-#   script:
-#     - terraform apply plan.json
-#   when: manual
+terraform_apply:
+  needs:
+    - build
+  stage: deploy
+  script:
+    - terraform apply ${TF_ROOT}/plan.json
+  when: manual
 
 destroy:
   stage: destroy
