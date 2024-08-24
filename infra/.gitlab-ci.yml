@@ -23,11 +23,11 @@ validate:
 build:
   extends: .terraform:build
   script:
-    - cd ${CI_PROJECT_DIR}/infra/terraform/.terraform
-    - ls -la
-  artifacts:
-    paths:
-      - plan.json
+    - cd ${CI_PROJECT_DIR}/infra/terraform/
+    - tree
+  # artifacts:
+  #   paths:
+  #     - plan.json
 
 deploy:
   extends: .terraform:deploy
