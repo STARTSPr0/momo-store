@@ -35,13 +35,13 @@ deploy:
     name: $TF_STATE_NAME
     on_stop: destroy
 
-terraform_apply:
-  needs:
-    - build
-  stage: deploy
-  script:
-    - terraform apply plan.json
-  when: manual
+# terraform_apply:
+#   needs:
+#     - build
+#   stage: deploy
+#   script:
+#     - terraform apply plan.json
+#   when: manual
 
 destroy:
   stage: destroy
