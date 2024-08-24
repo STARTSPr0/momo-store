@@ -31,7 +31,7 @@ terraform_apply:
     - build
   stage: deploy
   script:
-    - terraform apply ${TF_ROOT}/plan.json
+    - terraform apply
   when: manual
 
 destroy:
