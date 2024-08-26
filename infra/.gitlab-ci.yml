@@ -13,6 +13,9 @@ variables:
   TF_CLI_CONFIG_FILE: ${CI_PROJECT_DIR}/infra/terraform/.terraformrc
   TF_ROOT: ${CI_PROJECT_DIR}/infra/terraform/
   TF_STATE_NAME: x${CI_ENVIRONMENT_NAME}
+  YC_TOKEN: ${TF_YC_TOKEN}
+  TF_VAR_cloud_id: ${TF_CLOUD_ID}
+  TF_VAR_folder_id: ${TF_FOLDER_ID}
 
 validate:
   extends: .terraform:validate
@@ -38,12 +41,12 @@ terraform_apply:
     - gitlab-terraform apply
   when: manual
 
-destroy:
-  stage: cleanup
-  resource_group: ${TF_STATE_NAME}
-  environment:
-    name: $TF_STATE_NAME
-    action: stop
-  script:
-    - gitlab-terraform destroy
-  when: manual
+# destroy:
+#   stage: cleanup
+#   resource_group: ${TF_STATE_NAME}
+#   environment:
+#     name: $TF_STATE_NAME
+#     action: stop
+#   script:
+#     - gitlab-terraform destroy
+#   when: manual
