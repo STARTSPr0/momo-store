@@ -21,9 +21,3 @@ variable "cluster_name" {
   default = "k8s-cluster-momo"
   description = "Name of cluster"
 }
-
-variable "bucket_name" {
-  type        = string
-  default = "terraform-state-diplom-momo"
-  description = "Name of bucket"
-}
