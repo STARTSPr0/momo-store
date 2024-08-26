@@ -9,7 +9,7 @@ terraform {
 
   backend "s3" {
     endpoint = "storage.yandexcloud.net"
-    bucket   = "terraform-state-diplom-momo"
+    bucket   = var.bucket_name
     key      = "terraform.tfstate"
     region = "ru-central1"
     skip_region_validation      = true

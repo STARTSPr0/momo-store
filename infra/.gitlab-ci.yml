@@ -30,6 +30,14 @@ deploy:
   environment:
     name: $TF_STATE_NAME
 
+cleanup:
+  extends: .terraform:destroy
+  stage: cleanup
+  environment:
+    name: $TF_STATE_NAME
+    action: stop
+
+#джоба для ручного деплоя из других веток
 terraform_apply:
   needs:
     - build
@@ -42,19 +50,15 @@ terraform_apply:
     - gitlab-terraform apply
   when: manual
 
-cleanup:
-  extends: .terraform:destroy
+#джоба для ручного дестроя из других веток
+destroy:
+  needs:
+    - terraform_apply
   stage: cleanup
+  resource_group: ${TF_STATE_NAME}
   environment:
     name: $TF_STATE_NAME
     action: stop
-
-# destroy:
-#   stage: cleanup
-#   resource_group: ${TF_STATE_NAME}
-#   environment:
-#     name: $TF_STATE_NAME
-#     action: stop
-#   script:
-#     - gitlab-terraform destroy
-#   when: manual
+  script:
+    - gitlab-terraform destroy
+  when: manual
