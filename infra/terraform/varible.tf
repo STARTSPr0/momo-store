@@ -28,12 +28,6 @@ variable "k8s_version" {
   description = "Version of k8s"
 }
 
-variable "k8s_version" {
-  type        = number
-  default = "1.27"
-  description = "Version of k8s"
-}
-
 variable "node_memory" {
   type        = number
   default = "2"
