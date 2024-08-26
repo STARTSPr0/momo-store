@@ -27,7 +27,7 @@ deploy:
   extends: .terraform:deploy
   environment:
     name: $TF_STATE_NAME
-    on_stop: destroy
+    on_stop: cleanup
 
 terraform_apply:
   needs:
