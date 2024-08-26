@@ -1,3 +1,6 @@
+variables:
+  CLUSTER_NAME: "k8s-cluster-momo"
+
 
 stages:
   - module-pipelines
@@ -26,8 +29,8 @@ terraform:
   stage: module-pipelines
   trigger:
     include:
-      - "/infra/.gitlab-ci.yml"
+      - "/infra/terraform/.gitlab-ci.yml"
     strategy: depend
   only:
     changes:
-      - infra/**/*
+      - infra/terraform/**/*
