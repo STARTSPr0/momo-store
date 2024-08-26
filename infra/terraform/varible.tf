@@ -10,11 +10,11 @@ variable "folder_id" {
 
 variable "zone" {
   type        = string
+  default = "ru-central1-a"
   description = "ID of the availability zone"
 }
 
 variable "yc_token" {
   type        = string
-  default = "ru-central1-a"
   description = "ID of the cloud"
 }
