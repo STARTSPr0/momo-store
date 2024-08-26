@@ -1,10 +1,12 @@
 variable "cloud_id" {
   type        = string
+  default = "none"
   description = "ID of the cloud"
 }
 
 variable "folder_id" {
   type        = string
+  default = "none"
   description = "ID of the folder"
 }
 
@@ -16,5 +18,6 @@ variable "zone" {
 
 variable "yc_token" {
   type        = string
-  description = "ID of the cloud"
+  default = "none"
+  description = "Token of the cloud"
 }
