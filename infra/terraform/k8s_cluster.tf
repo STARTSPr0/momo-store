@@ -20,8 +20,6 @@ resource "yandex_kubernetes_cluster" "k8s-cluster" {
   ]
 }
 
-######NODES Start
-
 resource "yandex_kubernetes_node_group" "k8s-node-group" {
   description = "Node group for Managed Service for Kubernetes cluster"
   name        = "${var.cluster_name}-node-group"
@@ -61,8 +59,6 @@ resource "yandex_kubernetes_node_group" "k8s-node-group" {
     }
   }
 }
-
-######NODES Enmd
 
 resource "yandex_vpc_network" "momo_network" {
   name        = "${var.cluster_name}-network"
