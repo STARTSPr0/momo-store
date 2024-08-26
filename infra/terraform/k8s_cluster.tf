@@ -29,8 +29,10 @@ resource "yandex_kubernetes_node_group" "k8s-node-group" {
   version     = var.k8s_version
 
   scale_policy {
-    fixed_scale {
-      size = 1 # Number of hosts
+    auto_scale {
+      initial = var.node_auto_scale_initial
+      min     = var.node_auto_scale_min
+      max     = var.node_auto_scale_max
     }
   }
 
@@ -41,7 +43,7 @@ resource "yandex_kubernetes_node_group" "k8s-node-group" {
   }
 
   instance_template {
-    platform_id = "standard-v2"
+    platform_id = var.node_platform_id
 
     network_interface {
       nat                = true
@@ -49,13 +51,13 @@ resource "yandex_kubernetes_node_group" "k8s-node-group" {
     }
 
     resources {
-      memory = 4 # RAM quantity in GB
-      cores  = 4 # Number of CPU cores
+      memory = var.node_memory # RAM quantity in GB
+      cores  = var.node_core # Number of CPU cores
     }
 
     boot_disk {
-      type = "network-hdd"
-      size = 64 # Disk size in GB
+      type = var.node_disk_type
+      size = var.node_disk_size # Disk size in GB
     }
   }
 }
