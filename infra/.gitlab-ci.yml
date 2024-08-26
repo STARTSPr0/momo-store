@@ -3,7 +3,6 @@ include:
   - template: Jobs/SAST-IaC.latest.gitlab-ci.yml
 
 stages:
-  - test_stage
   - validate
   - test
   - build
@@ -17,14 +16,6 @@ variables:
   YC_TOKEN: ${TF_YC_TOKEN}
   TF_VAR_cloud_id: ${TF_CLOUD_ID}
   TF_VAR_folder_id: ${TF_FOLDER_ID}
-
-# test_job:
-#   stage: test_stage
-#   script:
-#     - echo $YC_TOKEN
-#     - echo ${TF_YC_TOKEN}
-#     - export YC_TOKEN="${TF_YC_TOKEN}"
-#     - echo $YC_TOKEN
 
 validate:
   extends: .terraform:validate
@@ -46,10 +37,15 @@ terraform_apply:
     name: $TF_STATE_NAME
     action: start
   script:
-    # - export YC_TOKEN="${TF_YC_TOKEN}"
-    - echo $YC_TOKEN
     - gitlab-terraform apply
   when: manual
+
+cleanup:
+  extends: .terraform:destroy
+  stage: cleanup
+  environment:
+    name: $TF_STATE_NAME
+    action: stop
 
 # destroy:
 #   stage: cleanup

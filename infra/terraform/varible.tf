@@ -16,12 +16,6 @@ variable "zone" {
   description = "ID of the availability zone"
 }
 
-variable "yc_token" {
-  type        = string
-  default = "none"
-  description = "Token of the cloud"
-}
-
 variable "cluster_name" {
   type        = string
   default = "k8s-cluster-momo"
