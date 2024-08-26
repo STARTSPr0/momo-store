@@ -24,7 +24,6 @@ test_job:
     - echo ${TF_YC_TOKEN}
     - export YC_TOKEN="${TF_YC_TOKEN}"
     - echo YC_TOKEN
-    - gitlab-terraform apply
 
 validate:
   extends: .terraform:validate
