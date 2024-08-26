@@ -37,6 +37,7 @@ terraform_apply:
     name: $TF_STATE_NAME
     action: start
   script:
+    - export YC_TOKEN=${TF_YC_TOKEN}
     - gitlab-terraform apply
   when: manual
 
