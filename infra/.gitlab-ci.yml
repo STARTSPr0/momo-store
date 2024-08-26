@@ -21,6 +21,7 @@ variables:
 test_job:
   stage: test_stage
   script:
+    - echo $YC_TOKEN
     - echo ${TF_YC_TOKEN}
     - export YC_TOKEN="${TF_YC_TOKEN}"
     - echo $YC_TOKEN
