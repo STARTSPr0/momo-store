@@ -7,7 +7,7 @@ stages:
   - test
   - build
   - deploy
-  - destroy
+  - cleanup
 
 variables:
   TF_CLI_CONFIG_FILE: ${CI_PROJECT_DIR}/infra/terraform/.terraformrc
@@ -30,6 +30,7 @@ terraform_apply:
   needs:
     - build
   stage: deploy
+  resource_group: ${TF_STATE_NAME}
   environment:
     name: $TF_STATE_NAME
     on_stop: destroy
@@ -38,7 +39,8 @@ terraform_apply:
   when: manual
 
 destroy:
-  stage: destroy
+  stage: cleanup
+  resource_group: ${TF_STATE_NAME}
   environment:
     name: $TF_STATE_NAME
     action: stop
