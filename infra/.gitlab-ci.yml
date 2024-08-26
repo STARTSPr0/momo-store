@@ -23,7 +23,7 @@ test_job:
   script:
     - echo ${TF_YC_TOKEN}
     - export YC_TOKEN="${TF_YC_TOKEN}"
-    - echo YC_TOKEN
+    - echo $YC_TOKEN
 
 validate:
   extends: .terraform:validate
