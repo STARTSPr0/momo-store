@@ -24,8 +24,8 @@ go test -v ./...
 
 | Имя | Описание |
 | ------ | ------ |
-| YC_TOKEN | IAM-токен вашего облака в YC |
-| TF_VAR_cloud_id | ID вашего облака |
-| TF_VAR_folder_id | ID вашей папки |
-| AWS_ACCESS_KEY_ID | ID ключа сервисного пользователя для бакета |
+| YC_TOKEN | IAM-токен облака в YC |
+| TF_VAR_cloud_id | ID  облака |
+| TF_VAR_folder_id | ID  папки |
+| AWS_ACCESS_KEY_ID | ID сервисного пользователя для бакета |
 | AWS_SECRET_ACCESS_KEY | Ключ сервисного пользователя для бакета  |
