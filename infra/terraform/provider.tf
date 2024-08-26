@@ -3,10 +3,17 @@ terraform {
     yandex = {
       source = "yandex-cloud/yandex"
       version = "0.97.0"
-       # source = "terraform-registry.storage.yandexcloud.net/yandex-cloud/yandex" # Alternate link
     }
   }
   required_version = ">= 0.75.0"
+
+  backend "s3" {
+    endpoint = "storage.yandexcloud.net"
+    bucket   = "terraform-state-diplom-momo"
+    key      = "terraform.tfstate"
+    skip_region_validation      = true
+    skip_credentials_validation = true
+  }
 }
 
 provider "yandex" {
