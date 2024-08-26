@@ -16,6 +16,8 @@ variables:
   YC_TOKEN: ${TF_YC_TOKEN}
   TF_VAR_cloud_id: ${TF_CLOUD_ID}
   TF_VAR_folder_id: ${TF_FOLDER_ID}
+  AWS_ACCESS_KEY_ID: ${TF_BUCKET_ID}
+  AWS_SECRET_ACCESS_KEY: ${TF_BUCKET_KEY}
 
 validate:
   extends: .terraform:validate
