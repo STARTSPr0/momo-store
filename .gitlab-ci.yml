@@ -1,6 +1,6 @@
 variables:
-  CLUSTER_NAME: "k8s-cluster-momo"
-
+  CLUSTER_NAME: "k8s-cluster-momo" # дефолтное имя кластера 
+#todo нужно для обращения через yc 
 
 stages:
   - module-pipelines

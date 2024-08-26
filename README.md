@@ -28,4 +28,5 @@ go test -v ./...
 | TF_VAR_cloud_id | ID  облака |
 | TF_VAR_folder_id | ID  папки |
 | AWS_ACCESS_KEY_ID | ID сервисного пользователя для бакета |
-| AWS_SECRET_ACCESS_KEY | Ключ сервисного пользователя для бакета  |
+| AWS_SECRET_ACCESS_KEY | Ключ сервисного пользователя для бакета  |    
+| TF_VAR_cluster_name | Имя кластера  | 
