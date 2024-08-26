@@ -39,7 +39,9 @@ terraform_apply:
 
 destroy:
   stage: destroy
-  extends: .terraform:destroy
   environment:
     name: $TF_STATE_NAME
     action: stop
+  script:
+    - gitlab-terraform destroy
+  when: manual
