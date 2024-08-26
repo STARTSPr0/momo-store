@@ -21,3 +21,9 @@ variable "yc_token" {
   default = "none"
   description = "Token of the cloud"
 }
+
+variable "cluster_name" {
+  type        = string
+  default = "k8s-cluster-momo"
+  description = "Name of cluster"
+}
