@@ -49,16 +49,3 @@ terraform_apply:
   script:
     - gitlab-terraform apply
   when: manual
-
-#джоба для ручного дестроя из других веток
-destroy:
-  needs:
-    - terraform_apply
-  stage: cleanup
-  resource_group: ${TF_STATE_NAME}
-  environment:
-    name: $TF_STATE_NAME
-    action: stop
-  script:
-    - gitlab-terraform destroy
-  when: manual
