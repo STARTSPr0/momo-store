@@ -27,7 +27,6 @@ deploy:
   extends: .terraform:deploy
   environment:
     name: $TF_STATE_NAME
-    on_stop: cleanup
 
 terraform_apply:
   needs:
@@ -36,7 +35,7 @@ terraform_apply:
   resource_group: ${TF_STATE_NAME}
   environment:
     name: $TF_STATE_NAME
-    on_stop: cleanup
+    action: start
   script:
     - gitlab-terraform apply
   when: manual
