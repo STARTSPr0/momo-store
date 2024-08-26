@@ -2,7 +2,7 @@ resource "yandex_kubernetes_cluster" "k8s-cluster" {
   name = var.cluster_name
   network_id = yandex_vpc_network.momo_network.id
   master {
-    version   = "1.27"
+    version   = var.k8s_version
     public_ip = true
     zonal {
       zone      = var.zone
@@ -19,6 +19,48 @@ resource "yandex_kubernetes_cluster" "k8s-cluster" {
     yandex_resourcemanager_folder_iam_member.encrypterDecrypter
   ]
 }
+
+######NODES Start
+
+resource "yandex_kubernetes_node_group" "k8s-node-group" {
+  description = "Node group for Managed Service for Kubernetes cluster"
+  name        = "${var.cluster_name}-node-group"
+  cluster_id  = yandex_kubernetes_cluster.k8s-cluster.id
+  version     = var.k8s_version
+
+  scale_policy {
+    fixed_scale {
+      size = 1 # Number of hosts
+    }
+  }
+
+  allocation_policy {
+    location {
+      zone = var.zone
+    }
+  }
+
+  instance_template {
+    platform_id = "standard-v2"
+
+    network_interface {
+      nat                = true
+      subnet_ids         = [yandex_vpc_subnet.momo_subnet.id]
+    }
+
+    resources {
+      memory = 4 # RAM quantity in GB
+      cores  = 4 # Number of CPU cores
+    }
+
+    boot_disk {
+      type = "network-hdd"
+      size = 64 # Disk size in GB
+    }
+  }
+}
+
+######NODES Enmd
 
 resource "yandex_vpc_network" "momo_network" {
   name        = "${var.cluster_name}-network"

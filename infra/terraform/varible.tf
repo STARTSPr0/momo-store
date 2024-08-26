@@ -21,3 +21,9 @@ variable "cluster_name" {
   default = "k8s-cluster-momo"
   description = "Name of cluster"
 }
+
+variable "k8s_version" {
+  type        = number
+  default = "1.27"
+  description = "Version of k8s"
+}
