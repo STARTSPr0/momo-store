@@ -8,14 +8,14 @@
 npm install
 NODE_ENV=production VUE_APP_API_URL=http://localhost:8081 npm run serve
 ```
-------------
+
 ## Backend
 
 ```bash
 go run ./cmd/api
 go test -v ./... 
 ```
-------------
+
 ## Кластер k8s
 
 Разворачивае кластера k8s происходит через Terraform путем деплоя через CI/CD
