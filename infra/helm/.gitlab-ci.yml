@@ -16,9 +16,7 @@ test-job:
   script:
     - yc managed-kubernetes cluster list
     - yc managed-kubernetes cluster get-credentials ${CLUSTER_NAME} --external --force
-    - kubectl get pods
     - kubectl config set-context --current --namespace=default
-    - kubectl get pods
     - kubectl create deployment hello-node --image=registry.k8s.io/e2e-test-images/agnhost:2.39 -- /agnhost netexec --http-port=8080
     - kubectl get pods
     - kubectl wait --for=condition=Ready pod/$(kubectl get pods | tail -n1 | awk '{print $1}')
