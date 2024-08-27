@@ -1,7 +1,3 @@
-variables:
-  CLUSTER_NAME: "k8s-cluster-momo" # дефолтное имя кластера 
-#todo нужно для обращения через yc 
-
 stages:
   - module-pipelines
 
@@ -25,7 +21,7 @@ backend:
     changes:
       - backend/**/*
 
-terraform:
+infra:
   stage: module-pipelines
   trigger:
     include:
@@ -33,4 +29,4 @@ terraform:
     strategy: depend
   only:
     changes:
-      - infra/terraform/**/*
+      - infra/**/*
