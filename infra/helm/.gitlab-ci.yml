@@ -22,7 +22,7 @@ deploy-ingress-nginx:
     - helm pull oci://cr.yandex/yc-marketplace/yandex-cloud/ingress-nginx/chart/ingress-nginx
       --version 4.10.0 
       --untar && 
-      helm install 
+      helm upgrade --install
       --namespace ingress-nginx
       --create-namespace 
       ingress-nginx ./ingress-nginx/
