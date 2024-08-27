@@ -24,9 +24,7 @@ deploy-ingress-nginx:
       --untar && 
       helm install 
       --namespace ingress-nginx
-      --create-namespace
-      --atomic
-      --timeout 15m  
+      --create-namespace 
       ingress-nginx ./ingress-nginx/
 
 deploy-grafana:
