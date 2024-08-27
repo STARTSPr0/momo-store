@@ -1,5 +1,5 @@
 stages:
-  - test
+  - grafana
 
 before_script:
   #Установливаем yc
@@ -9,15 +9,25 @@ before_script:
   - yc config set token ${TF_YC_OAUTH_TOKEN}
   - yc config set folder-id ${TF_FOLDER_ID}
   - yc config set cloud-id ${TF_CLOUD_ID}
+  #Подключаемся к созданному кластеру
+  - yc managed-kubernetes cluster get-credentials ${CLUSTER_NAME} --external --force
+  #Переключаемся на дефолтный неймспейс
+  - kubectl config set-context --current --namespace=default
 
-test-job:
-  stage: test
+deploy-grafana:
+  stage: grafana
   image: alpine/k8s:1.22.6
   script:
-    - yc managed-kubernetes cluster list
-    - yc managed-kubernetes cluster get-credentials ${CLUSTER_NAME} --external --force
-    - kubectl config set-context --current --namespace=default
-    - kubectl create deployment hello-node --image=registry.k8s.io/e2e-test-images/agnhost:2.39 -- /agnhost netexec --http-port=8080
-    - kubectl get pods
-    - kubectl wait --for=condition=Ready pod/$(kubectl get pods | tail -n1 | awk '{print $1}')
-  when: manual
+    - helm upgrade --install grafana ./grafana --namespace grafana --atomic 
+
+# test-job:
+#   stage: test
+#   image: alpine/k8s:1.22.6
+#   script:
+#     - yc managed-kubernetes cluster list
+#     - yc managed-kubernetes cluster get-credentials ${CLUSTER_NAME} --external --force
+#     - kubectl config set-context --current --namespace=default
+#     - kubectl create deployment hello-node --image=registry.k8s.io/e2e-test-images/agnhost:2.39 -- /agnhost netexec --http-port=8080
+#     - kubectl get pods
+#     - kubectl wait --for=condition=Ready pod/$(kubectl get pods | tail -n1 | awk '{print $1}')
+#   when: manual
