@@ -8,15 +8,15 @@ before_script:
   # - ./get_helm.sh
   #Установливаем yc
   - curl -sSL https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash
-  - echo 'source /root/yandex-cloud/completion.zsh.inc' >>  ~/.zshrc
+  - source "~/.bashrc"
   #Устанавливаем kubectl
   # - curl -LO https://dl.k8s.io/release/`curl -LS https://dl.k8s.io/release/stable.txt`/bin/linux/amd64/kubectl
   # - chmod +x ./kubectl
   # - mv ./kubectl /usr/local/bin/kubectl
   #Передаем переменные для Yandex Cloud
-  - yc config set token ${TF_YC_TOKEN}
-  - yc config set folder-id ${TF_FOLDER_ID}
-  - yc config set cloud-id ${TF_CLOUD_ID}
+  # - yc config set token ${TF_YC_TOKEN}
+  # - yc config set folder-id ${TF_FOLDER_ID}
+  # - yc config set cloud-id ${TF_CLOUD_ID}
 
 test-job:
   stage: test
@@ -24,4 +24,8 @@ test-job:
   script:
     - helm version
     - kubectl version --client
+    - yc version
+    - yc config set token ${TF_YC_TOKEN}
+    - yc config set folder-id ${TF_FOLDER_ID}
+    - yc config set cloud-id ${TF_CLOUD_ID}
     - yc managed-kubernetes cluster list
