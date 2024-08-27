@@ -8,7 +8,7 @@ before_script:
   # - ./get_helm.sh
   #Установливаем yc
   - curl -sSL https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash
-  - source "~/.bashrc"
+  # - source "~/.bashrc"
   #Устанавливаем kubectl
   # - curl -LO https://dl.k8s.io/release/`curl -LS https://dl.k8s.io/release/stable.txt`/bin/linux/amd64/kubectl
   # - chmod +x ./kubectl
