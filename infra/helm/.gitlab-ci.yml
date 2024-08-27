@@ -6,7 +6,7 @@ before_script: #Проба установить хэлм
   - chmod 700 get_helm.sh
   - ./get_helm.sh
 
-test-job:
+test-job: 
   stage: test
   script:
   - ls -la
