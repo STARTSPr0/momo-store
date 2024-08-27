@@ -3,15 +3,16 @@ stages:
 
 before_script:
   #Установливаем helm
-  - curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
-  - chmod 700 get_helm.sh
-  - ./get_helm.sh
+  # - curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+  # - chmod 700 get_helm.sh
+  # - ./get_helm.sh
   #Установливаем yc
   - curl -sSL https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash
+  - echo 'source /root/yandex-cloud/completion.zsh.inc' >>  ~/.zshrc
   #Устанавливаем kubectl
-  - curl -LO https://dl.k8s.io/release/`curl -LS https://dl.k8s.io/release/stable.txt`/bin/linux/amd64/kubectl
-  - chmod +x ./kubectl
-  - mv ./kubectl /usr/local/bin/kubectl
+  # - curl -LO https://dl.k8s.io/release/`curl -LS https://dl.k8s.io/release/stable.txt`/bin/linux/amd64/kubectl
+  # - chmod +x ./kubectl
+  # - mv ./kubectl /usr/local/bin/kubectl
   #Передаем переменные для Yandex Cloud
   - yc config set token ${TF_YC_TOKEN}
   - yc config set folder-id ${TF_FOLDER_ID}
@@ -19,6 +20,7 @@ before_script:
 
 test-job:
   stage: test
+  image: alpine/k8s:1.22.6
   script:
     - helm version
     - kubectl version --client
