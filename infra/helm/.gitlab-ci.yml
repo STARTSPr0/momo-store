@@ -25,10 +25,9 @@ deploy-ingress-nginx:
       helm install 
       --namespace ingress-nginx
       --create-namespace
-      --atomic  
+      --atomic
+      --timeout 15m  
       ingress-nginx ./ingress-nginx/
-
-
 
 deploy-grafana:
   stage: grafana
