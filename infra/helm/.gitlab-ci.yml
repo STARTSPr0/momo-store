@@ -18,7 +18,7 @@ deploy-grafana:
   stage: grafana
   image: alpine/k8s:1.22.6
   script:
-    - helm upgrade --install grafana ${CI_PROJECT_DIR}/infa/helm/grafana --namespace grafana --atomic 
+    - helm upgrade --install grafana ${CI_PROJECT_DIR}/infra/helm/grafana --namespace grafana --atomic 
 
 # test-job:
 #   stage: test
