@@ -6,9 +6,9 @@ before_script:
   - curl -sSL https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash
   - ln -s /root/yandex-cloud/bin/yc /usr/bin/yc #делаем линк на YC
   #Передаем переменные для Yandex Cloud
-  # - yc config set token ${TF_YC_TOKEN}
-  # - yc config set folder-id ${TF_FOLDER_ID}
-  # - yc config set cloud-id ${TF_CLOUD_ID}
+  - yc config set token ${TF_YC_OAUTH_TOKEN}
+  - yc config set folder-id ${TF_FOLDER_ID}
+  - yc config set cloud-id ${TF_CLOUD_ID}
 
 test-job:
   stage: test
@@ -17,7 +17,4 @@ test-job:
     - helm version
     - kubectl version --client
     - yc version
-    - yc config set token ${TF_YC_TOKEN}
-    - yc config set folder-id ${TF_FOLDER_ID}
-    - yc config set cloud-id ${TF_CLOUD_ID}
     - yc managed-kubernetes cluster list
