@@ -24,7 +24,7 @@ test-job:
   script:
     - helm version
     - kubectl version --client
-    - yc version
+    - /root/yandex-cloud/bin/yc version
     - yc config set token ${TF_YC_TOKEN}
     - yc config set folder-id ${TF_FOLDER_ID}
     - yc config set cloud-id ${TF_CLOUD_ID}
