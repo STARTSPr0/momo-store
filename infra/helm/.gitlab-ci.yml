@@ -1,0 +1,64 @@
+stages:
+  - ingress
+  - grafana
+  - prometheus
+
+before_script:
+  #Установливаем yc
+  - curl -sSL https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash
+  - ln -s /root/yandex-cloud/bin/yc /usr/bin/yc #делаем линк на YC
+  #Передаем переменные для Yandex Cloud
+  - yc config set token ${TF_YC_OAUTH_TOKEN}
+  - yc config set folder-id ${TF_FOLDER_ID}
+  - yc config set cloud-id ${TF_CLOUD_ID}
+  #Подключаемся к созданному кластеру
+  - yc managed-kubernetes cluster get-credentials ${CLUSTER_NAME} --external --force
+  #Переключаемся на дефолтный неймспейс
+  - kubectl config set-context --current --namespace=default
+
+deploy-ingress-nginx:
+  stage: ingress
+  image: alpine/k8s:1.22.6
+  script:
+    - >
+      helm upgrade --install --atomic ingress-nginx ingress-nginx 
+      --repo https://kubernetes.github.io/ingress-nginx 
+      --namespace ingress-nginx
+      --create-namespace
+      --atomic
+  when: manual
+
+deploy-grafana:
+  stage: grafana
+  image: alpine/k8s:1.22.6
+  script:
+    - >
+      helm upgrade --install grafana ${CI_PROJECT_DIR}/infra/helm/grafana
+      --namespace grafana
+      --create-namespace
+      --atomic
+  when: manual 
+
+deploy-prometheus:
+  stage: prometheus
+  image: alpine/k8s:1.22.6
+  script:
+    - >
+      helm upgrade --install prometheus ${CI_PROJECT_DIR}/infra/helm/prometheus
+      --namespace prometheus
+      --create-namespace
+      --atomic
+  when: manual
+
+
+# test-job:
+#   stage: test
+#   image: alpine/k8s:1.22.6
+#   script:
+#     - yc managed-kubernetes cluster list
+#     - yc managed-kubernetes cluster get-credentials ${CLUSTER_NAME} --external --force
+#     - kubectl config set-context --current --namespace=default
+#     - kubectl create deployment hello-node --image=registry.k8s.io/e2e-test-images/agnhost:2.39 -- /agnhost netexec --http-port=8080
+#     - kubectl get pods
+#     - kubectl wait --for=condition=Ready pod/$(kubectl get pods | tail -n1 | awk '{print $1}')
+#   when: manual

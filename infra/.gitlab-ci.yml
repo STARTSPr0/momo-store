@@ -1,0 +1,27 @@
+stages:
+  - create-cluster
+  - utils
+
+variables:
+  CLUSTER_NAME: "k8s-cluster-momo" # дефолтное имя кластера 
+#нужно для обращения через yc 
+
+terraform:
+  stage: create-cluster
+  trigger:
+    include:
+      - "/infra/terraform/.gitlab-ci.yml"
+    strategy: depend
+  only:
+    changes:
+      - infra/terraform/**/*
+
+helm:
+  stage: utils
+  trigger:
+    include:
+      - "/infra/helm/.gitlab-ci.yml"
+    strategy: depend
+  only:
+    changes:
+      - infra/helm/**/*

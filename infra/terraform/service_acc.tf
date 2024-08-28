@@ -30,3 +30,10 @@ resource "yandex_resourcemanager_folder_iam_member" "encrypterDecrypter" {
   role      = "kms.keys.encrypterDecrypter"
   member    = "serviceAccount:${yandex_iam_service_account.k8s_cluster_sa.id}"
 }
+
+resource "yandex_resourcemanager_folder_iam_member" "load-balancer-admin" {
+  # Сервисному аккаунту назначается роль "load-balancer.admin".
+  folder_id = var.folder_id
+  role      = "load-balancer.admin"
+  member    = "serviceAccount:${yandex_iam_service_account.k8s_cluster_sa.id}"
+}
