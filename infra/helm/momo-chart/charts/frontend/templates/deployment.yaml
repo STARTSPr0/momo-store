@@ -1,0 +1,51 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Chart.Name }}-{{ .Release.Name }}"
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/instance: "{{ .Release.Name }}"
+    app.kubernetes.io/managed-by: "{{ .Release.Service }}"
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    app.kubernetes.io/component: frontend
+    app.kubernetes.io/part-of: momo-store
+    env: "{{ .Values.environment }}"
+spec:
+  # желаемое количество реплик Pod'а
+  replicas: {{ .Values.replicas }}
+  revisionHistoryLimit: 12
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+    # шаблон для создания Pod'ов
+    spec:
+      containers:
+        - image: "{{ .Values.image }}:lastest"
+          name: {{ .Chart.Name }}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: frontend-port
+              containerPort: 8080
+          volumeMounts:
+            - name: nginx-conf
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+              readOnly: true
+      volumes:
+        - name: nginx-conf
+          configMap:
+            name: nginx-conf
+            items:
+              - key: nginx.conf
+                path: nginx.conf
+        # чтобы Кубер мог скачивать образы из нашего GitLab Registry
+      imagePullSecrets:
+        - name: docker-config-secret
