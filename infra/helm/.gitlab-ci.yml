@@ -19,13 +19,15 @@ deploy-ingress-nginx:
   stage: ingress
   image: alpine/k8s:1.22.6
   script:
-    - helm pull oci://cr.yandex/yc-marketplace/yandex-cloud/ingress-nginx/chart/ingress-nginx
-      --version 4.10.0 
-      --untar && 
-      helm upgrade --install
-      --namespace ingress-nginx
-      --create-namespace 
-      ingress-nginx ./ingress-nginx/
+    # - helm pull oci://cr.yandex/yc-marketplace/yandex-cloud/ingress-nginx/chart/ingress-nginx
+    #   --version 4.10.0 
+    #   --untar && 
+    #   helm upgrade --install
+    #   --namespace ingress-nginx
+    #   --create-namespace 
+    #   ingress-nginx ./ingress-nginx/
+    - helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+    - helm upgrade --install ingress-nginx ingress-nginx --generate-name
 
 deploy-grafana:
   stage: grafana
