@@ -1,6 +1,7 @@
 stages:
   - ingress
   - grafana
+  - prometeus
 
 before_script:
   #Установливаем yc
@@ -22,14 +23,33 @@ deploy-ingress-nginx:
     - >
       helm upgrade --install --atomic ingress-nginx ingress-nginx 
       --repo https://kubernetes.github.io/ingress-nginx 
-      --namespace ingress-nginx --create-namespace
+      --namespace ingress-nginx
+      --create-namespace
+      --atomic
   when: manual
 
 deploy-grafana:
   stage: grafana
   image: alpine/k8s:1.22.6
   script:
-    - helm upgrade --install grafana ${CI_PROJECT_DIR}/infra/helm/grafana --namespace grafana --create-namespace --atomic 
+    - >
+      helm upgrade --install grafana ${CI_PROJECT_DIR}/infra/helm/grafana
+      --namespace grafana
+      --create-namespace
+      --atomic
+  when: manual 
+
+deploy-prometeus:
+  stage: prometeus
+  image: alpine/k8s:1.22.6
+  script:
+    - >
+      helm upgrade --install prometeus ${CI_PROJECT_DIR}/infra/helm/prometeus
+      --namespace prometeus
+      --create-namespace
+      --atomic
+  when: manual
+
 
 # test-job:
 #   stage: test
