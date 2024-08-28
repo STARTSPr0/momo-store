@@ -1,7 +1,7 @@
 stages:
   - ingress
   - grafana
-  - prometeus
+  - prometheus
 
 before_script:
   #Установливаем yc
@@ -39,13 +39,13 @@ deploy-grafana:
       --atomic
   when: manual 
 
-deploy-prometeus:
-  stage: prometeus
+deploy-prometheus:
+  stage: prometheus
   image: alpine/k8s:1.22.6
   script:
     - >
-      helm upgrade --install prometeus ${CI_PROJECT_DIR}/infra/helm/prometeus
-      --namespace prometeus
+      helm upgrade --install prometheus ${CI_PROJECT_DIR}/infra/helm/prometheus
+      --namespace prometheus
       --create-namespace
       --atomic
   when: manual
