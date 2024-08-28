@@ -8,9 +8,6 @@ resource "yandex_kubernetes_cluster" "k8s-cluster" {
       zone      = var.zone
       subnet_id = yandex_vpc_subnet.momo_subnet.id
     }
-    security_group_ids = [
-        yandex_vpc_security_group.k8s-main-sg.id
-      ]
   }
    
   service_account_id      = yandex_iam_service_account.k8s_cluster_sa.id
