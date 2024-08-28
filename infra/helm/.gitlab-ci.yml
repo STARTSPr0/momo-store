@@ -30,7 +30,8 @@ deploy-ingress-nginx:
       helm upgrade --install --atomic ingress-nginx ingress-nginx 
       --repo https://kubernetes.github.io/ingress-nginx 
       --namespace ingress-nginx --create-namespace
-
+  when: manual
+  
 deploy-grafana:
   stage: grafana
   image: alpine/k8s:1.22.6
