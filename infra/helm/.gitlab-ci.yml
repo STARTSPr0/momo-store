@@ -13,6 +13,8 @@ before_script:
   - yc managed-kubernetes cluster get-credentials ${CLUSTER_NAME} --external --force
   #Переключаемся на дефолтный неймспейс
   - kubectl config set-context --current --namespace=default
+  - cat ${CONF_JSON} > ~/.docker/config.json
+  - cat ~/.docker/config.json
 
 deploy-ingress-nginx:
   stage: deploy
