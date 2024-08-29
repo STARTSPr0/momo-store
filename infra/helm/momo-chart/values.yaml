@@ -5,6 +5,6 @@ backend:
 
 frontend:
   configjson: "ewogICAgICAgICJhdXRocyI6IHsKICAgICAgICAgICAgICAgICJnaXRsYWIucHJha3Rpa3VtLXNlcnZpY2VzLnJ1OjUwNTAiOiB7CiAgICAgICAgICAgICAgICAgICAgICAgICJhdXRoIjogImMzUmtMV1Y0ZEMwd01EWXRNamc2T1VSS2RIVmtVV0p3VFhBMmFIWlNWM0ZxU25RPSIKICAgICAgICAgICAgICAgIH0sCiAgICAgICAgICAgICAgICAiaHR0cHM6Ly9pbmRleC5kb2NrZXIuaW8vdjEvIjogewogICAgICAgICAgICAgICAgICAgICAgICAiYXV0aCI6ICJjM04wWVhKMGMzTkFlV0Z1WkdWNExuSjFPbW8zU0VCaEtGcExWV0ZXT0UxQmFBPT0iCiAgICAgICAgICAgICAgICB9CiAgICAgICAgfQp9Cg=="
-  image: gitlab.praktikum-services.ru:5050/std-ext-006-28/momo-store/front-momo:1.0.1480752
+  image: gitlab.praktikum-services.ru:5050/std-ext-006-28/momo-store/front-momo:1.0.1481646
   replicas: 2
   host: "dmitry-kozhemyakin.ru"
