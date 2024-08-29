@@ -31,7 +31,7 @@ spec:
     # шаблон для создания Pod'ов
     spec:
       containers:
-        - image: "{{ .Values.image }}:lastest"
+        - image: "{{ .Values.image }}"
           name: {{ .Chart.Name }}
           imagePullPolicy: IfNotPresent
           ports:
