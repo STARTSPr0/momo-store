@@ -1,12 +1,21 @@
 # Секрет, необходимый, чтобы взаимодействовать с Docker Registry в GitLab:
 ---
-kind: Secret
-type: kubernetes.io/dockerconfigjson
 apiVersion: v1
+kind: Secret
 metadata:
-  name: docker-config-secret
+  name: dockersecret
+type: kubernetes.io/dockerconfigjson
 data:
-  .dockerconfigjson: "ewogICAgICAgICJhdXRocyI6IHsKICAgICAgICAgICAgICAgICJnaXRsYWIucHJha3Rpa3VtLXNlcnZpY2VzLnJ1OjUwNTAiOiB7CiAgICAgICAgICAgICAgICAgICAgICAgICJhdXRoIjogImMzUmtMV1Y0ZEMwd01EWXRNamc2T1VSS2RIVmtVV0p3VFhBMmFIWlNWM0ZxU25RPSIKICAgICAgICAgICAgICAgIH0sCiAgICAgICAgICAgICAgICAiaHR0cHM6Ly9pbmRleC5kb2NrZXIuaW8vdjEvIjogewogICAgICAgICAgICAgICAgICAgICAgICAiYXV0aCI6ICJjM04wWVhKMGMzTkFlV0Z1WkdWNExuSjFPbW8zU0VCaEtGcExWV0ZXT0UxQmFBPT0iCiAgICAgICAgICAgICAgICB9CiAgICAgICAgfQp9Cg=="
+  .dockerconfigjson: {{ .Values.configjson }}
+
+# ---
+# kind: Secret
+# type: kubernetes.io/dockerconfigjson
+# apiVersion: v1
+# metadata:
+#   name: docker-config-secret
+# data:
+#   .dockerconfigjson: "ewogICAgICAgICJhdXRocyI6IHsKICAgICAgICAgICAgICAgICJnaXRsYWIucHJha3Rpa3VtLXNlcnZpY2VzLnJ1OjUwNTAiOiB7CiAgICAgICAgICAgICAgICAgICAgICAgICJhdXRoIjogImMzUmtMV1Y0ZEMwd01EWXRNamc2T1VSS2RIVmtVV0p3VFhBMmFIWlNWM0ZxU25RPSIKICAgICAgICAgICAgICAgIH0sCiAgICAgICAgICAgICAgICAiaHR0cHM6Ly9pbmRleC5kb2NrZXIuaW8vdjEvIjogewogICAgICAgICAgICAgICAgICAgICAgICAiYXV0aCI6ICJjM04wWVhKMGMzTkFlV0Z1WkdWNExuSjFPbW8zU0VCaEtGcExWV0ZXT0UxQmFBPT0iCiAgICAgICAgICAgICAgICB9CiAgICAgICAgfQp9Cg=="
 ---
 apiVersion: apps/v1
 kind: Deployment
