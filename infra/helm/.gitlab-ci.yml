@@ -57,7 +57,7 @@ deploy-momo:
     - >
       helm upgrade --install momo-store ${CI_PROJECT_DIR}/infra/helm/momo-chart
       --namespace momo-store
-      --set frontend.image=gitlab.praktikum-services.ru:5050/std-ext-006-28/momo-store/front-momo:1.0.1481735
+      --set frontend.image.tag=1.0.1481735
       --create-namespace
       --atomic
   when: manual
