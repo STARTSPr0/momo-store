@@ -1,7 +1,7 @@
-backend:
+#backend:
   #configjson: ewoJImF1dGhzIjogewoJCSJnaXRsYWIucHJha3Rpa3VtLXNlcnZpY2VzLnJ1OjUwNTAiOiB7CgkJCSJhdXRoIjogImMzUmtMV1Y0ZEMwd01EWXRNamc2U21aYWExRndhRlZTUjBvMU9GcHplV295TVhrPSIKCQl9LAoJCSJodHRwczovL2luZGV4LmRvY2tlci5pby92MS8iOiB7CgkJCSJhdXRoIjogImMzTjBZWEowYzNOQWVXRnVaR1Y0TG5KMU9tbzNTRUJoS0ZwTFZXRldPRTFCYUE9PSIKCQl9Cgl9Cn0=
-  image: gitlab.praktikum-services.ru:5050/std-ext-006-28/momo-store/back-momo:lastest
-  replicas: 3
+#  image: gitlab.praktikum-services.ru:5050/std-ext-006-28/momo-store/back-momo:lastest
+#  replicas: 3
 
 frontend:
   image: gitlab.praktikum-services.ru:5050/std-ext-006-28/momo-store/front-momo:lastest
