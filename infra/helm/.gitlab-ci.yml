@@ -52,7 +52,7 @@ deploy-prometheus:
 
 deploy-momo:
   stage: deploy
-  image: alpine/k8s
+  image: alpine/k8s:latest
   script:
     - >
       helm upgrade --install momo-store ${CI_PROJECT_DIR}/infra/helm/momo-chart
