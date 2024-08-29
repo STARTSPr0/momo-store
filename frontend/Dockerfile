@@ -1,7 +1,8 @@
 #сборка
 FROM node:16.20.0-alpine3.18 as builder
 WORKDIR /usr/src/app
-COPY . .
+COPY package*.json ./
+COPY ./ .
 RUN npm install && npm run build
 
 #деплой
