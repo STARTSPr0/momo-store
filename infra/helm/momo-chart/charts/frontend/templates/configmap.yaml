@@ -29,7 +29,7 @@ data:
           listen 80;
 
           location / {
-            root   /app/static/momo-store;
+            root   /usr/share/nginx/html;
             index  index.html;
             try_files $uri $uri/ /index.html;
           }
