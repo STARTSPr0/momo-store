@@ -1,7 +1,5 @@
 stages:
-  - ingress
-  - grafana
-  - prometheus
+  - deploy
  
 before_script:
   #Установливаем yc
@@ -17,7 +15,7 @@ before_script:
   - kubectl config set-context --current --namespace=default
 
 deploy-ingress-nginx:
-  stage: ingress
+  stage: deploy
   image: alpine/k8s:1.22.6
   script:
     - >
@@ -29,7 +27,7 @@ deploy-ingress-nginx:
   when: manual
 
 deploy-grafana:
-  stage: grafana
+  stage: deploy
   image: alpine/k8s:1.22.6
   script:
     - >
@@ -40,7 +38,7 @@ deploy-grafana:
   when: manual 
 
 deploy-prometheus:
-  stage: prometheus
+  stage: deploy
   image: alpine/k8s:1.22.6
   script:
     - >
@@ -50,15 +48,13 @@ deploy-prometheus:
       --atomic
   when: manual
 
-
-# test-job:
-#   stage: test
-#   image: alpine/k8s:1.22.6
-#   script:
-#     - yc managed-kubernetes cluster list
-#     - yc managed-kubernetes cluster get-credentials ${CLUSTER_NAME} --external --force
-#     - kubectl config set-context --current --namespace=default
-#     - kubectl create deployment hello-node --image=registry.k8s.io/e2e-test-images/agnhost:2.39 -- /agnhost netexec --http-port=8080
-#     - kubectl get pods
-#     - kubectl wait --for=condition=Ready pod/$(kubectl get pods | tail -n1 | awk '{print $1}')
-#   when: manual
+deploy-momo:
+  stage: deploy
+  image: alpine/k8s:1.22.6
+  script:
+    - >
+      helm upgrade --install momo-store ${CI_PROJECT_DIR}/infra/helm/momo-chart
+      --namespace momo-store
+      --create-namespace
+      --atomic
+  when: manual
