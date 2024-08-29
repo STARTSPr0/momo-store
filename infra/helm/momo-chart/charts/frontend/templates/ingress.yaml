@@ -24,7 +24,7 @@ spec:
             name: {{ .Chart.Name }}
             port:
               # У сервиса может быть несколько портов, указываем нужный нам
-              number: 8080
+              number: 80
       - path: /products
         pathType: Prefix
         backend:
