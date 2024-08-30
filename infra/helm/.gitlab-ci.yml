@@ -49,7 +49,7 @@ deploy-prometheus:
       --create-namespace
       --atomic
   when: manual
-
+ 
 deploy-momo:
   stage: deploy
   image: alpine/k8s:1.27.16
