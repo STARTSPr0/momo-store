@@ -6,9 +6,10 @@ metadata:
 spec:
   # В кластере может быть несколько Ingress Controllers, мы используем NGINX
   ingressClassName: "nginx"
-  # tls:
-  #   - hosts:
-  #       - {{ .Values.host }}
+  tls:
+    - hosts:
+      - {{ .Values.host }}
+      secretName: selfsigned-cert-tls
   rules:
     # Хост определяет правило направления траффика по доменному имени
   - host: {{ .Values.host }}
