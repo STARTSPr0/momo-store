@@ -9,4 +9,4 @@ frontend:
     name: gitlab.praktikum-services.ru:5050/std-ext-006-28/momo-store/front-momo
     tag: 1.0.1481787
   replicas: 2
-  host: "dmitry-kozhemyakin.ru"
+  host: "https://dmitry-kozhemyakin.ru/"
