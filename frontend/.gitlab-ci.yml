@@ -1,8 +1,12 @@
+variables:
+  FRONT_VERSION: 1.0.${CI_PIPELINE_ID}
+
 stages:
   - build
   - nexus_upload
   - test
   - build_docker
+  - deploy
 
 build-frontend-code-job:
   stage: build
@@ -84,3 +88,16 @@ sonarqube-frontend-sast:
       -Dsonar.sources=${CI_PROJECT_DIR}/frontend/front-momo-${FRONT_VERSION}
       -Dsonar.host.url=${SONAR_DIPLOM_URL}
       -Dsonar.login=${SONAR_DIPLOM_LOGIN_FRONT}"
+
+#обновляем чарт, т.к. собран новый образ
+deploy-momo: 
+  stage: deploy
+  image: alpine/k8s:1.27.16
+  script:
+    - >
+      helm upgrade --install momo-store ${CI_PROJECT_DIR}/infra/helm/momo-chart
+      --namespace momo-store
+      --set frontend.image.tag=${FRONT_VERSION}
+      --create-namespace
+      --atomic
+  when: manual
