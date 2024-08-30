@@ -25,6 +25,34 @@ spec:
             port:
               # У сервиса может быть несколько портов, указываем нужный нам
               number: 80
+      - path: /products
+        pathType: Prefix
+        backend:
+          service:
+            name: backend
+            port:
+              number: 8081
+      - path: /categories
+        pathType: Prefix
+        backend:
+          service:
+            name: backend
+            port:
+              number: 8081
+      - path: /orders
+        pathType: Prefix
+        backend:
+          service:
+            name: backend
+            port:
+              number: 8081
+      - path: /auth/whoami
+        pathType: Prefix
+        backend:
+          service:
+            name: backend
+            port:
+              number: 8081
       - path: /
         pathType: Prefix
         backend:
