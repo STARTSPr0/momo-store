@@ -3,7 +3,9 @@ server:
     ## If true, Prometheus server Ingress will be created
     ##
     enabled: true
-
+    annotations: 
+      kubernetes.io/ingress.class: nginx
+      
     ## Prometheus server Ingress hostnames
     ## Must be provided if Ingress is enabled
     ##
