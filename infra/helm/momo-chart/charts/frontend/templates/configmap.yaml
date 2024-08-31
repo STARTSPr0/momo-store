@@ -40,8 +40,6 @@ data:
           }
 
           location /stub_status {
-            allow 127.0.0.1;
-            deny all;
             stub_status on;
           }
       }
