@@ -44,7 +44,7 @@ spec:
         - name: nginx-exporter
           image: 'nginx/nginx-prometheus-exporter:0.10.0'
           args:
-            - '-nginx.scrape-uri=http://localhost/nginx_status'
+            - '-nginx.scrape-uri=http://localhost/server-status'
           resources:
             limits:
               memory: 128Mi
