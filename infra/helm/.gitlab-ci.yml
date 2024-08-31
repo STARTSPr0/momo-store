@@ -26,6 +26,8 @@ deploy-ingress-nginx:
     - >
       helm upgrade --install --atomic ingress-nginx ingress-nginx 
       --repo https://kubernetes.github.io/ingress-nginx 
+      --namespace momo-store
+      --create-namespace
       --atomic
   when: manual
 
@@ -37,6 +39,7 @@ deploy-grafana:
   script:
     - >
       helm upgrade --install grafana ${CI_PROJECT_DIR}/infra/helm/grafana
+      --namespace momo-store
       --atomic
   when: manual 
 
@@ -48,6 +51,7 @@ deploy-prometheus:
   script:
     - >
       helm upgrade --install prometheus ${CI_PROJECT_DIR}/infra/helm/prometheus
+      --namespace momo-store
       --atomic
   when: manual
 
@@ -61,6 +65,7 @@ deploy-loki:
     - helm repo update
     - >
       helm upgrade --install loki grafana/loki-stack
+      --namespace momo-store
       --atomic
   when: manual
 
@@ -72,5 +77,6 @@ deploy-momo:
       helm upgrade --install momo-store ${CI_PROJECT_DIR}/infra/helm/momo-chart
       --set frontend.image.tag=1.0.1481859
       --set backend.image.tag=1.0.1481308
+      --namespace momo-store
       --atomic
   when: manual
