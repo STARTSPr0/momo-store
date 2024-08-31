@@ -1,4 +1,6 @@
 stages:
+  - ingress
+  - utils
   - deploy
  
 before_script:
@@ -15,7 +17,7 @@ before_script:
   - kubectl config set-context --current --namespace=default
 
 deploy-ingress-nginx:
-  stage: deploy
+  stage: ingress
   image: alpine/k8s:1.22.6
   script:
     # установить VPA в кластер
@@ -30,7 +32,7 @@ deploy-ingress-nginx:
   when: manual
 
 deploy-grafana:
-  stage: deploy
+  stage: utils
   image: alpine/k8s:1.22.6
   script:
     - >
@@ -41,7 +43,7 @@ deploy-grafana:
   when: manual 
 
 deploy-prometheus:
-  stage: deploy
+  stage: utils
   image: alpine/k8s:1.22.6
   script:
     - >
@@ -52,7 +54,7 @@ deploy-prometheus:
   when: manual
 
 deploy-loki:
-  stage: deploy
+  stage: utils
   image: alpine/k8s:1.22.6
   script:
     - helm repo add grafana https://grafana.github.io/helm-charts
