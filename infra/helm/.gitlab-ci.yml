@@ -13,8 +13,6 @@ before_script:
   - yc managed-kubernetes cluster get-credentials ${CLUSTER_NAME} --external --force
   #Переключаемся на дефолтный неймспейс
   - kubectl config set-context --current --namespace=default
-  # - cat ${CONF_JSON} > ~/.docker/config.json
-  # - cat ~/.docker/config.json
 
 deploy-ingress-nginx:
   stage: deploy
@@ -65,7 +63,7 @@ deploy-loki:
       --create-namespace
       --atomic
   when: manual
- 
+
 deploy-momo:
   stage: deploy
   image: alpine/k8s:1.27.16
@@ -74,6 +72,7 @@ deploy-momo:
       helm upgrade --install momo-store ${CI_PROJECT_DIR}/infra/helm/momo-chart
       --namespace momo-store
       --set frontend.image.tag=1.0.1481859
+      --set backend.image.tag=1.0.1481308
       --create-namespace
       --atomic
   when: manual

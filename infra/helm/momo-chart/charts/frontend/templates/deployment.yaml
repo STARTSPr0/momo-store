@@ -1,12 +1,3 @@
-# Секрет, необходимый, чтобы взаимодействовать с Docker Registry в GitLab:
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: dockersecret
-type: kubernetes.io/dockerconfigjson
-data:
-  .dockerconfigjson: {{ .Values.configjson }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -60,4 +51,4 @@ spec:
                 path: nginx.conf
         # чтобы Кубер мог скачивать образы из нашего GitLab Registry
       imagePullSecrets:
-        - name: dockersecret
+        - name: docker-config-secret
