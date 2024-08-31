@@ -12,6 +12,10 @@ metadata:
     app.kubernetes.io/component: backend
     app.kubernetes.io/part-of: momo-store
     env: "{{ .Values.environment }}" 
+  annotations:
+    prometheus.io/path: /metrics
+    prometheus.io/port: {{ .Values.containerPort }}
+    prometheus.io/scrape: "true"
 spec:
   # желаемое количество реплик Pod'а
   replicas: {{ .Values.replicas }}
@@ -37,6 +41,14 @@ spec:
           ports:
             - name: backend-port
               containerPort: {{ .Values.containerPort }}
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.containerPort }}
+            initialDelaySeconds: 15
+            periodSeconds: 30
+            timeoutSeconds: 1
+            failureThreshold: 6
       # чтобы Кубер мог скачивать образы из нашего GitLab Registry
       imagePullSecrets:
         - name: docker-config-secret
