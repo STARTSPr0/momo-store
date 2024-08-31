@@ -38,4 +38,11 @@ data:
           location /(products|categories|orders|auth/whoami) {
             proxy_pass http://backend:8081;
           }
+
+          location /nginx_status {
+            stub_status on;
+            access_log off;
+            allow 127.0.0.1;
+            deny all;
+          }
       }
