@@ -21,5 +21,5 @@ yandex_cloud_services:
   - service: managed-kubernetes
     serviceId: catt6n6h517vu72aj6gj
     folderId: b1gauj5l1sg0oprjjcat
-    bearer_token: YCN_X9SsgL-2zCfUIiigFuVuRUDJkZHYaDxWjRcV
-    scrape_interval: 60s
+    bearer_token: AQVN1NgLT8AP6vA-rxz5ikqmw4t6kpODg9RmFn6L
+    scrape_interval: 30s
