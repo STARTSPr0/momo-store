@@ -38,5 +38,10 @@ data:
           location /(products|categories|orders|auth/whoami) {
             proxy_pass http://backend:8081;
           }
+
+          location /stub_status {
+            allow 127.0.0.1;
+            deny all;
+            stub_status on;
         }
       }
