@@ -56,8 +56,8 @@ deploy-prometheus:
     - >
       helm upgrade --install my-prom prometheus-community/prometheus
       --namespace prometheus
-      --set ingress.enabled=true
-      --set hosts=prometheus.dmitry-kozhemyakin.ru
+      --set server.ingress.enabled=true
+      --set server.hosts=prometheus.dmitry-kozhemyakin.ru
       --create-namespace
       --atomic
     #- kubectl apply -f ${CI_PROJECT_DIR}/infra/helm/prometheus/templates/ingress.yaml
