@@ -47,8 +47,8 @@ deploy-grafana:
 deploy-prometheus:
   stage: utils
   image: alpine/k8s:1.22.6
-  needs:
-    - deploy-ingress-nginx
+  # needs:
+  #   - deploy-ingress-nginx
   script:
     - >
       helm upgrade --install prometheus ${CI_PROJECT_DIR}/infra/helm/prometheus
