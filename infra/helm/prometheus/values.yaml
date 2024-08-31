@@ -15,11 +15,11 @@
 #    serviceId: cakvctgrte4hunhvs8f
 #    folderId: b1g2hqnugteh52j2dfr
 #    bearer_token: AQVN3veeVseTVUm4RFjy-WRt9INXbdkS6Q8iC3Bh
-#    scrape_interval: 60s
+#    scrape_interval: 60s   YCAJEo8nbbe1RkNmyWgsMygId
 
 yandex_cloud_services:
   - service: managed-kubernetes
     serviceId: catt6n6h517vu72aj6gj
     folderId: b1gauj5l1sg0oprjjcat
-    bearer_token: AQVN1NgLT8AP6vA-rxz5ikqmw4t6kpODg9RmFn6L
+    bearer_token: YCPPYrMxDZSsW9MC1hLBSkIyvIu8s4sd9BBHJGpZ
     scrape_interval: 30s
