@@ -1,5 +1,5 @@
 variables:
-  VERSION: 1.0.${CI_PIPELINE_ID}
+  BACK_VERSION: 1.0.${CI_PIPELINE_ID}
 
 stages:
   - test
@@ -21,23 +21,23 @@ build-back-code-job:
   script:
     - cd backend/cmd/api
     - go build .
-    - mkdir ${CI_PROJECT_DIR}/backend/back-momo-${VERSION} && mv api ${CI_PROJECT_DIR}/backend/back-momo-${VERSION}
+    - mkdir ${CI_PROJECT_DIR}/backend/back-momo-${BACK_VERSION} && mv api ${CI_PROJECT_DIR}/backend/back-momo-${BACK_VERSION}
   artifacts:
     paths:
-      - ${CI_PROJECT_DIR}/backend/back-momo-${VERSION}/api
+      - ${CI_PROJECT_DIR}/backend/back-momo-${BACK_VERSION}/api
 
 upload-to-nexus:
   stage: nexus_upload
   needs:
     - build-back-code-job
   script:
-    - cd ${CI_PROJECT_DIR}/backend/back-momo-${VERSION}
-    - tar czvf api-${VERSION}.tar.gz api
+    - cd ${CI_PROJECT_DIR}/backend/back-momo-${BACK_VERSION}
+    - tar czvf api-${BACK_VERSION}.tar.gz api
     - ls -la
     - >
       curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}"
-      -JL --upload-file api-${VERSION}.tar.gz
-      ${NEXUS_REPO_URL}/repository/${NEXUS_REPO_BACK}/${VERSION}/api-${VERSION}.tar.gz
+      -JL --upload-file api-${BACK_VERSION}.tar.gz
+      ${NEXUS_REPO_URL}/repository/${NEXUS_REPO_BACK}/${BACK_VERSION}/api-${BACK_VERSION}.tar.gz
 
 build-backend-docker-job:
   stage: build_docker
@@ -100,3 +100,16 @@ sonarqube-backend-sast:
       -Dsonar.sources=backend
       -Dsonar.host.url=${SONAR_DIPLOM_URL}
       -Dsonar.login=${SONAR_DIPLOM_LOGIN_BACK}"
+
+#обновляем чарт, т.к. собран новый образ
+deploy-momo: 
+  stage: deploy
+  image: alpine/k8s:1.27.16
+  script:
+    - >
+      helm upgrade --install momo-store ${CI_PROJECT_DIR}/infra/helm/momo-chart
+      --namespace momo-store
+      --set backend.image.tag=${BACK_VERSION}
+      --create-namespace
+      --atomic
+  when: manual
