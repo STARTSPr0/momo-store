@@ -6,6 +6,7 @@ stages:
   - build
   - nexus_upload
   - build_docker
+  - deploy
 
 include:
   - template: Security/SAST.gitlab-ci.yml
