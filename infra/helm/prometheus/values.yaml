@@ -17,9 +17,4 @@
 #    bearer_token: AQVN3veeVseTVUm4RFjy-WRt9INXbdkS6Q8iC3Bh
 #    scrape_interval: 60s   YCAJEo8nbbe1RkNmyWgsMygId
 
-yandex_cloud_services:
-  - service: managed-kubernetes
-    serviceId: catt6n6h517vu72aj6gj
-    folderId: b1gauj5l1sg0oprjjcat
-    bearer_token: AQVNx8STuiDI-KT9YZkE71wkKrdExfQ6338Ss5EQ
-    scrape_interval: 10s
+yandex_cloud_services: []
