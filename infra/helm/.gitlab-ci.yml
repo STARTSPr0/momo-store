@@ -47,12 +47,15 @@ deploy-grafana:
 deploy-prometheus:
   stage: utils
   image: alpine/k8s:1.22.6
-  needs:
-    - deploy-ingress-nginx
+  # needs:
+  #   - deploy-ingress-nginx
   script:
+    - helm repo add prometheus-community https://prometheus-community.github.io/helm-charts  
+    - helm repo update
     - >
-      helm upgrade --install prometheus ${CI_PROJECT_DIR}/infra/helm/prometheus
+      helm upgrade --install my-prom prometheus-community/prometheus
       --namespace prometheus
+      --values ${CI_PROJECT_DIR}/infra/helm/prometheus/values.yaml
       --create-namespace
       --atomic
   when: manual
@@ -75,14 +78,13 @@ deploy-loki:
 deploy-momo:
   stage: deploy
   image: alpine/k8s:1.27.16
-  needs:
-    - deploy-ingress-nginx
   script:
     - >
       helm upgrade --install momo-store ${CI_PROJECT_DIR}/infra/helm/momo-chart
-      --namespace momo-store
       --set frontend.image.tag=1.0.1481859
       --set backend.image.tag=1.0.1481308
+      --namespace momo-store
       --create-namespace
       --atomic
   when: manual
+  

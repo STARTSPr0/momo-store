@@ -38,5 +38,9 @@ data:
           location /(products|categories|orders|auth/whoami) {
             proxy_pass http://backend:8081;
           }
+
+          location /server-status {
+            stub_status on;
+          }
         }
       }
