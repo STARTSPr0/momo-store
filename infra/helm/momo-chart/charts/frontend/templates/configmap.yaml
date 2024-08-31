@@ -24,10 +24,10 @@ data:
         access_log  /var/log/nginx/access.log  main;
 
         sendfile        on;
-        keepalive_timeout  65;       
-
+        keepalive_timeout  65;
         server {
           listen 80;
+
 
           location / {
             root   /usr/share/nginx/html;
@@ -42,4 +42,5 @@ data:
           location /server-status {
             stub_status on;
           }
+        }
       }
