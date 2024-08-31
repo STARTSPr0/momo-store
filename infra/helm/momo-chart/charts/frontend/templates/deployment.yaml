@@ -28,8 +28,6 @@ spec:
     metadata:
       labels:
         app: {{ .Chart.Name }}
-      annotations:
-        prometheus.io/scrape: 'true'
     # шаблон для создания Pod'ов
     spec:
       containers:
