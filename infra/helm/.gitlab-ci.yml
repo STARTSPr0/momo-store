@@ -34,6 +34,8 @@ deploy-ingress-nginx:
 deploy-grafana:
   stage: utils
   image: alpine/k8s:1.22.6
+  needs:
+    - ingress
   script:
     - >
       helm upgrade --install grafana ${CI_PROJECT_DIR}/infra/helm/grafana
@@ -45,6 +47,8 @@ deploy-grafana:
 deploy-prometheus:
   stage: utils
   image: alpine/k8s:1.22.6
+  needs:
+    - ingress
   script:
     - >
       helm upgrade --install prometheus ${CI_PROJECT_DIR}/infra/helm/prometheus
@@ -56,6 +60,8 @@ deploy-prometheus:
 deploy-loki:
   stage: utils
   image: alpine/k8s:1.22.6
+  needs:
+    - ingress
   script:
     - helm repo add grafana https://grafana.github.io/helm-charts
     - helm repo update
@@ -69,6 +75,8 @@ deploy-loki:
 deploy-momo:
   stage: deploy
   image: alpine/k8s:1.27.16
+  needs:
+    - ingress
   script:
     - >
       helm upgrade --install momo-store ${CI_PROJECT_DIR}/infra/helm/momo-chart
