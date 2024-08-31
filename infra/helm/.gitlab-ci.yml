@@ -26,7 +26,7 @@ deploy-ingress-nginx:
     - >
       helm upgrade --install --atomic ingress-nginx ingress-nginx 
       --repo https://kubernetes.github.io/ingress-nginx 
-      --namespace momo-store
+      --namespace ingress-nginx
       --create-namespace
       --atomic
   when: manual
