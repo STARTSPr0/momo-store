@@ -30,7 +30,6 @@ spec:
         app: {{ .Chart.Name }}
       annotations:
         prometheus.io/scrape: 'true'
-        prometheus.io/path: /server-status
     # шаблон для создания Pod'ов
     spec:
       containers:
