@@ -106,8 +106,9 @@ kubectl cluster-info
 Развернуты Grafana, Loki, Prometheus
 
 Grafana - https://grafana.dmitry-kozhemyakin.ru/d/ytC7jEqIz/momo-store?orgId=1&refresh=10s
-login: admin
-pass: 384270
+
+Login: admin
+Pass: 384270
 
 Prometheus - https://prometheus.dmitry-kozhemyakin.ru
 
