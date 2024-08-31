@@ -6,9 +6,6 @@ metadata:
 spec:
   # В кластере может быть несколько Ingress Controllers, мы используем NGINX
   ingressClassName: "nginx"
-  tls:
-    - hosts:
-        - {{ .Values.host }}
   rules:
     # Хост определяет правило направления траффика по доменному имени
   - host: {{ .Values.host }}
@@ -24,8 +21,29 @@ spec:
             name: {{ .Chart.Name }}
             port:
               # У сервиса может быть несколько портов, указываем нужный нам
-              number: 8080
-      - path: /api
+              number: 80
+      - path: /products
+        pathType: Prefix
+        backend:
+          service:
+            name: backend
+            port:
+              number: 8081
+      - path: /categories
+        pathType: Prefix
+        backend:
+          service:
+            name: backend
+            port:
+              number: 8081
+      - path: /orders
+        pathType: Prefix
+        backend:
+          service:
+            name: backend
+            port:
+              number: 8081
+      - path: /auth/whoami
         pathType: Prefix
         backend:
           service:

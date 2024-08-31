@@ -1,11 +1,12 @@
 variables:
-  VERSION: 1.0.${CI_PIPELINE_ID}
+  FRONT_VERSION: 1.0.${CI_PIPELINE_ID}
 
 stages:
   - build
   - nexus_upload
   - test
   - build_docker
+  - deploy
 
 build-frontend-code-job:
   stage: build
@@ -16,10 +17,10 @@ build-frontend-code-job:
     - cd frontend
     - npm install
     - npm run build
-    - mkdir front-momo-${VERSION} && mv dist front-momo-${VERSION}
+    - mkdir front-momo-${FRONT_VERSION} && mv dist front-momo-${FRONT_VERSION}
   artifacts:
     paths:
-      - ${CI_PROJECT_DIR}/frontend/front-momo-${VERSION}
+      - ${CI_PROJECT_DIR}/frontend/front-momo-${FRONT_VERSION}
 
 upload-to-nexus:
   stage: nexus_upload
@@ -27,12 +28,12 @@ upload-to-nexus:
     - build-frontend-code-job
   script:
     - cd ${CI_PROJECT_DIR}/frontend/
-    - tar czvf front-momo-${VERSION}.tar.gz front-momo-${VERSION}
+    - tar czvf front-momo-${FRONT_VERSION}.tar.gz front-momo-${FRONT_VERSION}
     - ls -la
     - >
       curl -v -u "${NEXUS_REPO_USER}:${NEXUS_REPO_PASS}"
-      -JL --upload-file front-momo-${VERSION}.tar.gz
-      ${NEXUS_REPO_URL}/repository/${NEXUS_REPO_FRONT}/${VERSION}/front-momo-${VERSION}.tar.gz
+      -JL --upload-file front-momo-${FRONT_VERSION}.tar.gz
+      ${NEXUS_REPO_URL}/repository/${NEXUS_REPO_FRONT}/${FRONT_VERSION}/front-momo-${FRONT_VERSION}.tar.gz
 
 build-frontend-docker-job:
   stage: build_docker
@@ -46,7 +47,7 @@ build-frontend-docker-job:
       --context "${CI_PROJECT_DIR}/frontend"
       --dockerfile "${CI_PROJECT_DIR}/frontend/Dockerfile"
       --destination "${CI_REGISTRY_IMAGE}/front-momo:$CI_COMMIT_SHA"
-      --build-arg VERSION=$VERSION
+      --build-arg VERSION=${FRONT_VERSION}
       --cache=true
 
 tag-frontend-docker:
@@ -62,7 +63,7 @@ tag-frontend-docker:
   before_script:
     - crane auth login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
-    - crane tag $CI_REGISTRY_IMAGE/front-momo:$CI_COMMIT_SHA $VERSION
+    - crane tag $CI_REGISTRY_IMAGE/front-momo:$CI_COMMIT_SHA ${FRONT_VERSION}
 
 sonarqube-frontend-sast:
   stage: test
@@ -84,6 +85,19 @@ sonarqube-frontend-sast:
   script:
     - "sonar-scanner -Dsonar.qualitygate.wait=true -X
       -Dsonar.projectKey=${SONAR_DIPLOM_KEY_FRONT}
-      -Dsonar.sources=${CI_PROJECT_DIR}/frontend/front-momo-${VERSION}
+      -Dsonar.sources=${CI_PROJECT_DIR}/frontend/front-momo-${FRONT_VERSION}
       -Dsonar.host.url=${SONAR_DIPLOM_URL}
       -Dsonar.login=${SONAR_DIPLOM_LOGIN_FRONT}"
+
+#обновляем чарт, т.к. собран новый образ
+deploy-momo: 
+  stage: deploy
+  image: alpine/k8s:1.27.16
+  script:
+    - >
+      helm upgrade --install momo-store ${CI_PROJECT_DIR}/infra/helm/momo-chart
+      --namespace momo-store
+      --set frontend.image.tag=${FRONT_VERSION}
+      --create-namespace
+      --atomic
+  when: manual

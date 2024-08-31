@@ -1,7 +1,7 @@
 stages:
   - ingress
-  - grafana
-  - prometheus
+  - utils
+  - deploy
  
 before_script:
   #Установливаем yc
@@ -20,6 +20,9 @@ deploy-ingress-nginx:
   stage: ingress
   image: alpine/k8s:1.22.6
   script:
+    # установить VPA в кластер
+    - kubectl apply -f https://raw.githubusercontent.com/kubernetes/autoscaler/vpa-release-1.0/vertical-pod-autoscaler/deploy/vpa-v1-crd-gen.yaml
+    - kubectl apply -f https://raw.githubusercontent.com/kubernetes/autoscaler/vpa-release-1.0/vertical-pod-autoscaler/deploy/vpa-rbac.yaml
     - >
       helm upgrade --install --atomic ingress-nginx ingress-nginx 
       --repo https://kubernetes.github.io/ingress-nginx 
@@ -29,8 +32,10 @@ deploy-ingress-nginx:
   when: manual
 
 deploy-grafana:
-  stage: grafana
+  stage: utils
   image: alpine/k8s:1.22.6
+  needs:
+    - deploy-ingress-nginx
   script:
     - >
       helm upgrade --install grafana ${CI_PROJECT_DIR}/infra/helm/grafana
@@ -40,8 +45,10 @@ deploy-grafana:
   when: manual 
 
 deploy-prometheus:
-  stage: prometheus
+  stage: utils
   image: alpine/k8s:1.22.6
+  needs:
+    - deploy-ingress-nginx
   script:
     - >
       helm upgrade --install prometheus ${CI_PROJECT_DIR}/infra/helm/prometheus
@@ -50,15 +57,32 @@ deploy-prometheus:
       --atomic
   when: manual
 
+deploy-loki:
+  stage: utils
+  image: alpine/k8s:1.22.6
+  needs:
+    - deploy-ingress-nginx
+  script:
+    - helm repo add grafana https://grafana.github.io/helm-charts
+    - helm repo update
+    - >
+      helm upgrade --install loki grafana/loki-stack
+      --namespace loki
+      --create-namespace
+      --atomic
+  when: manual
 
-# test-job:
-#   stage: test
-#   image: alpine/k8s:1.22.6
-#   script:
-#     - yc managed-kubernetes cluster list
-#     - yc managed-kubernetes cluster get-credentials ${CLUSTER_NAME} --external --force
-#     - kubectl config set-context --current --namespace=default
-#     - kubectl create deployment hello-node --image=registry.k8s.io/e2e-test-images/agnhost:2.39 -- /agnhost netexec --http-port=8080
-#     - kubectl get pods
-#     - kubectl wait --for=condition=Ready pod/$(kubectl get pods | tail -n1 | awk '{print $1}')
-#   when: manual
+deploy-momo:
+  stage: deploy
+  image: alpine/k8s:1.27.16
+  needs:
+    - deploy-ingress-nginx
+  script:
+    - >
+      helm upgrade --install momo-store ${CI_PROJECT_DIR}/infra/helm/momo-chart
+      --namespace momo-store
+      --set frontend.image.tag=1.0.1481859
+      --set backend.image.tag=1.0.1481308
+      --create-namespace
+      --atomic
+  when: manual

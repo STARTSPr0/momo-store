@@ -2,6 +2,8 @@
 FROM node:16.20.0-alpine3.18 as builder
 WORKDIR /usr/src/app
 COPY . .
+ENV NODE_ENV=/
+ENV VUE_APP_API_URL=/
 RUN npm install && npm run build
 
 #деплой
