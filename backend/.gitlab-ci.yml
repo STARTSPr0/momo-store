@@ -52,7 +52,7 @@ build-backend-docker-job:
       --context "${CI_PROJECT_DIR}/backend"
       --dockerfile "${CI_PROJECT_DIR}/backend/Dockerfile"
       --destination "${CI_REGISTRY_IMAGE}/back-momo:$CI_COMMIT_SHA"
-      --build-arg VERSION=$VERSION
+      --build-arg VERSION=${BACK_VERSION}
       --cache=true
 
 tag-backend-docker:
@@ -68,7 +68,7 @@ tag-backend-docker:
   before_script:
     - crane auth login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
-    - crane tag $CI_REGISTRY_IMAGE/back-momo:$CI_COMMIT_SHA $VERSION
+    - crane tag $CI_REGISTRY_IMAGE/back-momo:$CI_COMMIT_SHA ${BACK_VERSION}
 
 backend-go-test:
   stage: test
