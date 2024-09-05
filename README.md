@@ -107,8 +107,5 @@ kubectl cluster-info
 
 Grafana - https://grafana.dmitry-kozhemyakin.ru/d/ytC7jEqIz/momo-store?orgId=1&refresh=10s
 
-Login: admin
-Pass: 384270
-
 Prometheus - https://prometheus.dmitry-kozhemyakin.ru
 
